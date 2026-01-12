@@ -2,6 +2,8 @@
 
 Awesome! Cool! NLP project! Yay!
 
+Website for task 3: https://www.helsinki.fi/en/news/news-and-press-releases
+
 ## How to make changes:
 
 1. Every time you start working on the project, start off by **pulling the changes** from the cloud repository. You can do this by using your code editor's Git controls (there should be a button labeled "Pull" somewhere, possibly under a "VCS" or "Commits" tab), or manually by running `git pull` in the terminal.
