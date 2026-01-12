@@ -7,3 +7,6 @@ print("Hello everyone")
 
 # Final print of the program
 print("Goodbye world :(")
+
+#italian print:
+print('ciao!')
