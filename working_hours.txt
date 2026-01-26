@@ -6,6 +6,7 @@ Fiia:
 
 Aaro:
 19.1.   1.5 hours
+26.1.   2 hours
 
 Isabel:
 19.1.   2 hours     query loop for Boolean search, pair coding with Fiia
