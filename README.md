@@ -19,3 +19,14 @@ Website for task 3: https://www.helsinki.fi/en/news/news-and-press-releases
 > If the push fails (if you get yellow text in the terminal or your code editor complains), then you need to first pull changes (and probably resolve a merge conflict).
 
 If you run into any issues, send a message to the WhatsApp group :D
+
+## How to use Venv
+
+Venv (Virtual Environment) is a way to make dealing with Python packages a little less terrible. It should make it so that everyone has the same package versions installed, and we get less "it works on my machine" errors.
+
+Using venv works like this: 
+
+1. On your first time, run `python3 -m venv .venv` to initialize it
+2. On Windows, run `./.venv/Scripts/activate`; on MacOS or Linux, run `source .venv/bin/activate`
+3. Install packages with `pip3 install -r requirements.txt`
+4. You're good to go! If you install any new packages, add them to `requirements.txt`
