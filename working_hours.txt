@@ -1,8 +1,9 @@
 Add your working hours here!
 
 Fiia:
-19.1.   1 hour
-22.1.   2 hours
+19.1.   1 hour --> loop for boolean search
+22.1.   2 hours --> merging code
+26.1.   2 hours --> tf-idf search pair coding
 
 Aaro:
 19.1.   1.5 hours
