@@ -37,6 +37,8 @@ def rewrite_query(query, td_matrix, t2i, tokenizer):
     # rewrite every token in the query
     # using a tokenizer instead of query.split
 
+    # allowing multiple word search with "&"
+
     return " & ".join(
         rewrite_token(t, td_matrix, t2i)
         for t in tokenizer(query)
@@ -91,7 +93,6 @@ def test_tf_idf_query(query, tf_matrix, t2i, cv, tokenizer):
             documents[i][:500]))
 
 def main():
-<<<<<<< HEAD
     # cv for boolean search
     cv1 = CountVectorizer(lowercase=True, binary=True)
     # cv for tf-idf
@@ -101,12 +102,6 @@ def main():
     dense_matrix = x.todense()
 
     sparse_matrix = x
-=======
-    cv1 = CountVectorizer(lowercase=True, binary=True)
-
-    sparse_matrix = cv1.fit_transform(documents)
-    dense_matrix = sparse_matrix.todense()
->>>>>>> 4694367cc0b7e8f348c12391fa2d66cb883f70b0
     # print("Term-document matrix: (?)\n")
     # print(sparse_matrix)
 
@@ -122,11 +117,8 @@ def main():
     #print(td_matrix)
 
     t2i = cv1.vocabulary_
-<<<<<<< HEAD
     t2i2 = cv2.vocabulary_
     
-=======
->>>>>>> 4694367cc0b7e8f348c12391fa2d66cb883f70b0
     #print(t2i)
     
     tokenizer1 = cv1.build_tokenizer()
@@ -155,17 +147,9 @@ def main():
     
     
 
-<<<<<<< HEAD
     #test_tf_idf_query("candy", tf_matrix, t2iv2)
 
 
-=======
-    cv2 = CountVectorizer(lowercase=True, binary=False)
-    t2iv2 = cv2.vocabulary_
-
-    tf_matrix = create_tf_matrix()
-    test_tf_idf_query("candy", tf_matrix, t2iv2)
->>>>>>> 4694367cc0b7e8f348c12391fa2d66cb883f70b0
 
 
 main()
