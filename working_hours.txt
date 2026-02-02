@@ -17,3 +17,4 @@ Isabel:
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages
 26.1.	0.5 hours   semantic search
+01.2.	2.5 hours   wildcards search implementation
