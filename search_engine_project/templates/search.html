@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search engine</title>
+</head>
+<body>
+    
+<header>
+    <h1>Search musicals!</h1>
+    <p>(or whatever we decide on)</p>
+    <p>Enter your search query/keywords to 
+        find the information you desire.
+        You can use Boolean or tf-idf search.
+    </p>
+
+</header>    
+
+<main>
+    <form action="/results" method="get"
+        <label for="query">
+         What do you want to search?
+        </label><br>
+        <input type="text" id="query" name="query" placeholder="Start typing.." required>
+        <br><br>
+
+        <label for="search">
+            Choose search method:
+        </label><br>
+        <select id="search" name="method">
+            <option value="boolean">Boolean search</option>
+            <option value="tf-idf">TF-IDF search</option>
+        </select>
+        <br><br>
+
+        <button type="submit">Go!</button>
+    </form>
+</main>
+
+{% include "footer.html" %}
+
+</body>
+</html>

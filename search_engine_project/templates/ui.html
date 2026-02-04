@@ -4,41 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Document</title>
+    <title>Homepage</title>
 </head>
 <body>
-<div class="topnav_bar">
-    <div class="container">
-        <a href="ui.html">
-        </a>
-    </div>
 
-    <div class="main-menu">
-        <ul>
-            <li>
-                <a href="ui.html"></a>
-            </li>
-            <li>
-                <a href="About the project"></a>
-            </li>
-        </ul>
+<header>   
+    <div class="topnav_bar">
+        <div class="container">
+            <ul>
+                <li><a href="ui.html">Home</a></li>
+                <li><a href="about.html">About the website</a></li>
+            </ul>
+        </div>
     </div>
-</div>
+</header> 
+    
+   
 
-<section class="hero">
+<section>
     <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-heading text-xl">
+        <div class="main-content">
+            <h1 class="main-heading text-xl">
                 Welcome to our app :)
             </h1>
+            <p>
+                This page is a search 
+                engine! Try search here:
+            </p>
+            <form action="search.html" method ="get">
+                <button type="submit">
+                        To search
+                </button>
+                
+            </form>
         </div>
     </div>
 </section>
 
-<p>This page is a search 
-    engine! Try search here:</p>
 
-<button type="button">To search</button>
+
+
 {% include "footer.html" %}
     
 </body>
