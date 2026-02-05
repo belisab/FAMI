@@ -45,7 +45,7 @@ body {
 
 h1 {
   color: black;
-  font-size: 300%;
+  font-size: 200%;
   margin: 30px;
   background: rgba(255, 255, 255, 0.4);  /* white with 40% opacity */
   padding: 15px;
@@ -56,7 +56,7 @@ h1 {
 
 p {
   color: black;
-  font-size: 160%;
+  font-size: 120%;
   margin: 30px;
   background: rgba(255, 255, 255, 0.4);  /* white with 40% opacity */
   padding: 15px;
