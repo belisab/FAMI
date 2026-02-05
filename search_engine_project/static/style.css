@@ -35,6 +35,8 @@ body {
 
 .topnav_bar ul {
     display: flex;
+    justify-content: center; /* center items horizontally */
+    align-items: center;     /* center vertically */
     gap: 20px;
     list-style: none;
     margin: 0;
