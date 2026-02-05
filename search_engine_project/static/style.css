@@ -1,3 +1,76 @@
-body {
-    background: red;
+/* paste URL into browser: http://127.0.0.1:5000/ */
+/* NOTE TO SELF: #ID, .class */
+
+/* Make the body fill the viewport and apply the image */
+html, body {
+  height: 100%;
+  margin: 0;              /* Remove default margins that can cause gaps */
 }
+
+body {
+  /* Point to your image (adjust the path as needed) */
+  /*from: https://images.pexels.com/photos/976862/pexels-photo-976862.jpeg */
+  background-image: url("stage_pexels.jpg");
+
+  /* Make it cover the screen without distortion */
+  background-size: cover;
+
+  /* Keep the focal point centered */
+  background-position: center center;
+
+  /* Prevent tiling if the image is smaller than the viewport */
+  background-repeat: no-repeat;
+
+  /* Optional: parallax-like effect (can be janky on some mobile browsers) */
+  /* background-attachment: fixed; */
+
+  /* Optional: fallback color while image loads */
+  background-color: #000;
+}
+
+.topnav_bar {
+    background: lightgrey;  /* semi-transparent */
+    padding: 10px 0;
+}
+
+.topnav_bar ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 5;
+}
+
+h1 {
+  color: black;
+  font-size: 300%;
+  margin: 30px;
+  background: rgba(255, 255, 255, 0.4);  /* white with 40% opacity */
+  padding: 15px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+
+p {
+  color: black;
+  font-size: 160%;
+  margin: 30px;
+  background: rgba(255, 255, 255, 0.4);  /* white with 40% opacity */
+  padding: 15px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+#footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: lightgrey;
+  color: black;
+  text-align: center;
+}
+
+
+
