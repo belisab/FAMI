@@ -19,7 +19,7 @@
 </header>    
 
 <main>
-    <form action="/results" method="get"
+    <form action="{{ url_for('results') }}" method="get">
         <label for="query">
          What do you want to search?
         </label><br>
@@ -31,7 +31,7 @@
         </label><br>
         <select id="search" name="method">
             <option value="boolean">Boolean search</option>
-            <option value="tf-idf">TF-IDF search</option>
+            <option value="semantic">Semantic search</option>
         </select>
         <br><br>
 

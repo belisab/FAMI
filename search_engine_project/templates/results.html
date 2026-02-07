@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Results</h1>
+    <p><b>Query:</b> {{ query }}</p>
+    <p><b>Method:</b> {{ method }}</p>
+    <a href="{{ url_for('search') }}">Back to search</a>
+  </header>
+
+  <main>
+    {% if results and results|length > 0 %}
+      <ol>
+        {% for r in results %}
+          <li style="margin-bottom: 12px; white-space: pre-wrap;">{{ r }}</li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p>No results.</p>
+    {% endif %}
+  </main>
+
+  {% include "footer.html" %}
+</body>
+</html>

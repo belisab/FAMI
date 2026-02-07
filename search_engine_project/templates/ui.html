@@ -31,11 +31,10 @@
                 This page is a search 
                 engine! Try search here:
             </p>
-            <form action="search.html" method ="get">
+            <form action="{{ url_for('search') }}" method="get">
                 <button type="submit">
                         To search
-                </button>
-                
+                </button>  
             </form>
         </div>
     </div>
