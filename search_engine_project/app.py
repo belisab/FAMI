@@ -38,12 +38,16 @@ def results():
     query = request.args.get("query", "")
     method = request.args.get("method", "boolean")
 
+    MAX_RESULTS = 5 # Limit the number of results to display
+
     if method == "boolean":
         hits = boolean_engine.search(query)
     elif method == "semantic":
         hits = get_semantic_engine().search(query)
     else:
         hits = []
+
+    hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
     return render_template("results.html", query=query, method=method, results=hits)
 

@@ -26,6 +26,12 @@ body {
 
   /* Optional: fallback color while image loads */
   background-color: #000;
+
+  background-attachment: fixed;
+}
+
+main {
+  flex: 1; /* Allow main to grow and fill available space */
 }
 
 .topnav_bar {
@@ -65,7 +71,7 @@ p {
 }
 
 #footer {
-  position: fixed;
+  position: static;
   left: 0;
   bottom: 0;
   width: 100%;
