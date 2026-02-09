@@ -16,9 +16,9 @@
 
   <main>
     {% if results and results|length > 0 %}
-      <ol>
+      <ol id="results_list">
         {% for r in results %}
-          <li style="margin-bottom: 12px; white-space: pre-wrap;">{{ r }}</li>
+          <li id="result_li">{{ r }}</li>
         {% endfor %}
       </ol>
     {% else %}
