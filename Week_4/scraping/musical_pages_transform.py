@@ -7,7 +7,6 @@ from pathlib import Path
 from bs4 import BeautifulSoup, Tag
 import typing
 import json
-import re
 
 def extract_only_text(p: Tag) -> str:
     # Remove citations
@@ -52,18 +51,16 @@ def find_content_by_header(classes: list[str]) -> str | None:
 def normalize_str(a: str) -> str:
     return a.lower().strip().replace(" ", "")
 
-musicals_data = typing.cast(list[typing.Any], json.loads(Path("./musicals.json").read_text()))
+musicals_data = typing.cast(dict[str, typing.Any], json.loads(Path("./musicals.json").read_text()))
 
-result: dict[int, typing.Any] = dict()
+result: dict[str, typing.Any] = dict()
 for enum_index, path in enumerate(Path("../musical_wikipedia_pages/").glob("*.html")):
     # if enum_index > 50:
     #     break
 
-    index = re.search(r"\d+", path.name)
-    assert index is not None # ihatepylanceihatepylanceihatepylanceihatepylanceihatepylance
-    index = int(index.group(0))
+    id = path.name.removesuffix(".html")
 
-    print(f"[{enum_index}] processing {path} ({musicals_data[index]['wikipedia_url']})")
+    print(f"[{enum_index}] processing {path} ({musicals_data[id]['wikipedia_url']})")
 
     # `html.parser` parses the page wrong :(
     # To be more precise, Wikipedia for some reason has <meta .. /> tags in the 
@@ -99,7 +96,7 @@ for enum_index, path in enumerate(Path("../musical_wikipedia_pages/").glob("*.ht
     cast = find_content_by_header(["cast", "original_casts", "cast_and_characters"])
     songs = find_content_by_header(["musical_numbers", "songs", "song_list"])
 
-    result[index] = {
+    result[id] = {
         "title": title.text,
         "description": description,
         "synopsis": synopsis,
