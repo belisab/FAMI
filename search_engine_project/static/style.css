@@ -26,6 +26,8 @@ body {
 
   /* Optional: fallback color while image loads */
   background-color: #000;
+
+  color: white;
 }
 
 .topnav_bar {

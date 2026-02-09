@@ -18,7 +18,9 @@
     {% if results and results|length > 0 %}
       <ol>
         {% for r in results %}
-          <li style="margin-bottom: 12px; white-space: pre-wrap;">{{ r }}</li>
+          <li style="margin-bottom: 12px; white-space: pre-wrap;">
+            <a href="{{ url_for('musical', index=r['index']) }}">{{ r["title"] }}</a>
+          </li>
         {% endfor %}
       </ol>
     {% else %}

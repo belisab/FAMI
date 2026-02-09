@@ -1,20 +1,13 @@
 from flask import Flask, render_template, request
-import os, sys
 from data_loader import load_documents
-
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SEARCH_ALG_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "Search_Algorithms"))
-sys.path.insert(0, SEARCH_ALG_DIR)
+from algorithms.boolean import BooleanSearchEngine
+from algorithms.semantic import SemanticSearchEngine
 
-from boolean import BooleanSearchEngine
-from semantic import SemanticSearchEngine
-
-DOCUMENTS, METADATA = load_documents()
-boolean_engine = BooleanSearchEngine(DOCUMENTS)
-
+documents = load_documents()
+boolean_engine = BooleanSearchEngine(documents)
 
 _semantic_engine = None  # lazy
 
@@ -22,7 +15,7 @@ def get_semantic_engine():
     global _semantic_engine
     if _semantic_engine is None:
         ft_model = SemanticSearchEngine.install_embeddings()
-        _semantic_engine = SemanticSearchEngine(ft_model, DOCUMENTS)
+        _semantic_engine = SemanticSearchEngine(ft_model, documents)
     return _semantic_engine
 
 @app.route("/")
@@ -46,6 +39,10 @@ def results():
         hits = []
 
     return render_template("results.html", query=query, method=method, results=hits)
+
+@app.route("/results/<index>")
+def musical(index: str):
+    return render_template("musical.html", musical=documents[int(index)])
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

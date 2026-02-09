@@ -1,30 +1,43 @@
 import json
 import os
+from pathlib import Path
+from algorithms.doc import SearchableDocument
+from dataclasses import dataclass
 
-def load_documents():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+@dataclass
+class Musical(SearchableDocument):
+    index: int
+    title: str
+    year_released: str
+    venue_type: str | None
+    synopsis: str | None
+    description: str | None
+    cast: str | None
+    songs: str | None
 
-    data_path = os.path.abspath(
-        os.path.join(base_dir, "..", "Week_4", "scraping", "musicals-data.json")
-    )
+    def get_searchable_data(self) -> str:
+        return f"{self.title} ({self.venue_type} {self.year_released})\n\n" + (
+            f"{self.description}\n\n{self.synopsis}\n\n{self.cast}\n\n{self.songs}"
+        )
 
-    with open(data_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+def load_documents() -> list[Musical]:
+    base_dir = Path(os.path.dirname(os.path.abspath(__file__))) / ".." / "Week_4" / "scraping"
+    metadata = json.loads((base_dir / "musicals.json").read_text())
+    pagedata = json.loads((base_dir / "musicals-data.json").read_text())
 
-    documents = []
-    metadata = []
+    musicals = list[Musical]()
+    for index, meta in enumerate(metadata):
+        data = pagedata[str(index)] if str(index) in pagedata else None
 
-    for _, musical in data.items():
-        text_parts = []
+        musicals.append(Musical(
+            index=index,
+            title=meta["title"],
+            year_released=meta["year_released"],
+            venue_type=meta["venue_type"],
+            synopsis=data["synopsis"] if data else None,
+            description=data["description"] if data else None,
+            cast=data["cast"] if data else None,
+            songs=data["songs"] if data else None,
+        ))
 
-        for field in ["title", "description", "synopsis", "cast", "songs"]:
-            if musical.get(field):
-                text_parts.append(musical[field])
-
-        documents.append("\n".join(text_parts))
-        metadata.append({
-            "title": musical.get("title"),
-            "url": musical.get("canonical_url")
-        })
-
-    return documents, metadata
+    return musicals
