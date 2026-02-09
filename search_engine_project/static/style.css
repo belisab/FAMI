@@ -30,6 +30,7 @@ body {
   /* Optional: fallback color while image loads */
   background-color: #000;
 
+  color: white;
   background-attachment: fixed;
 }
 
