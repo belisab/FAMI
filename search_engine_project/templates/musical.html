@@ -12,7 +12,11 @@
   </header>
 
   <main>
-    {{ musical["description"] }}
+    <p>{{ musical["description"] }}</p>
+
+    <div>
+      {{ musical.render_synopsis()|safe }}
+    </div>
   </main>
 
   {% include "footer.html" %}

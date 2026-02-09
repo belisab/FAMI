@@ -83,7 +83,7 @@ def expand_wildcards_in_query(query: str, kgram_index: KGramIndex, vocabulary: l
     return " ".join(new_tokens)
 
 def rewrite_query(query: str):
-    return " ".join(
+    return " & ".join(
         # If the search term exists in our dictionary of operators, get it, 
         # otherwise find occurrences of the term in `td_matrix``. If the term 
         # is not in our dictionary, then the query results in 0 (since the 
