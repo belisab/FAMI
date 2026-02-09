@@ -8,6 +8,9 @@ html, body {
 }
 
 body {
+
+  display: flex;        /* make body a flex container that fills the viewport */
+  flex-direction: column;
   /* Point to your image (adjust the path as needed) */
   /*from: https://images.pexels.com/photos/976862/pexels-photo-976862.jpeg */
   background-image: url("stage_pexels.jpg");
@@ -28,6 +31,11 @@ body {
   background-color: #000;
 
   color: white;
+  background-attachment: fixed;
+}
+
+main {
+  flex: 1; /* Allow main to grow and fill available space */
 }
 
 .topnav_bar {
@@ -67,7 +75,7 @@ p {
 }
 
 #footer {
-  position: fixed;
+  position: static;
   left: 0;
   bottom: 0;
   width: 100%;
