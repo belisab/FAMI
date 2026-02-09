@@ -45,3 +45,4 @@ def load_documents() -> list[Musical]:
         ))
 
     return musicals
+
