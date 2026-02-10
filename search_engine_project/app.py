@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from data_loader import load_documents
+from visualisations import years_bar
 
 app = Flask(__name__)
 
@@ -40,9 +41,16 @@ def results():
     else:
         hits = []
 
+    # for visualisations
+    # extract years
+    years = [hit.get("year_released") for hit in hits if hit.get("year_released")]
+    # generate plot by referencing visualisations.py
+    plot_file = years_bar(years) if years else None
+
     hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
-    return render_template("results.html", query=query, method=method, results=hits)
+    return render_template("results.html", query=query, method=method,
+                           results=hits, plot_file=plot_file)
 
 @app.route("/results/<index>")
 def musical(index: str):

@@ -26,6 +26,12 @@
     {% else %}
       <p>No results.</p>
     {% endif %}
+
+    {% if plot_file %}
+    <h2>Release Year Distribution</h2>
+    <img src="{{ url_for('static', filename=plot_file) }}" alt="Bar chart">
+    {% endif %}
+
   </main>
 
   {% include "footer.html" %}
