@@ -20,11 +20,11 @@ musicals = load_documents()
 #print(type(search_results))
 
 def venue_pie():
-    plt.ion()
+    #plt.ion()
     plt.figure()
 
 
-def get_years(years):
+def get_decades(years):
    # years = search_results_years
     print(years[0], print(type(int(years[0]))))
     decades = [(int(year) // 10) * 10 for year in years]
@@ -43,7 +43,7 @@ def get_years(years):
 def years_bar(years, filename="barplot.png"):
     if not years:
         return None
-    counted_decades = get_years(years)
+    counted_decades = get_decades(years)
 
     x = sorted(counted_decades.keys())
     y = [counted_decades[d] for d in x]
@@ -66,9 +66,9 @@ def years_bar(years, filename="barplot.png"):
 
 
 
-def main():
-    years_bar()
-main()
+#def main():
+    #years_bar()
+#main()
 
 
 

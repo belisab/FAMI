@@ -29,19 +29,19 @@ def load_documents() -> list[Musical]:
     metadata = json.loads((base_dir / "musicals.json").read_text())
     pagedata = json.loads((base_dir / "musicals-data.json").read_text())
 
-    musicals = list[Musical]()
-    for index, meta in enumerate(metadata):
-        data = pagedata[str(index)] if str(index) in pagedata else None
-
+    # I changed this so meta is a callable dictionary
+    musicals: list[Musical] = []
+    for index, (musical_id, meta) in enumerate(metadata.items()):
+        data = pagedata.get(musical_id, {})
         musicals.append(Musical(
             index=index,
-            title=meta["title"],
-            year_released=meta["year_released"],
-            venue_type=meta["venue_type"],
-            synopsis=data["synopsis"] if data else None,
-            description=data["description"] if data else None,
-            cast=data["cast"] if data else None,
-            songs=data["songs"] if data else None,
+            title=meta.get("title",""),
+            year_released=meta.get("year_released", ""),
+            venue_type=meta.get("venue_type", None),
+            synopsis=data.get("synopsis") if data else None,
+            description=data.get("description") if data else None,
+            cast=data.get("cast") if data else None,
+            songs=data.get("songs") if data else None,
         ))
 
     return musicals

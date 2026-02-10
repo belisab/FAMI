@@ -4,6 +4,7 @@ Fiia:
 19.1.   1 hour --> loop for boolean search
 22.1.   2 hours --> merging code
 26.1.   2 hours --> tf-idf search pair coding
+10.2.   3 hours --> visualizations with Isabel
 
 Aaro:
 19.1.   1.5 hours
