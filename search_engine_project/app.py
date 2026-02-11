@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from data_loader import load_documents
 from visualisations import years_bar
+from visualisations import venue_pie
 
 app = Flask(__name__)
 
@@ -47,10 +48,14 @@ def results():
     # generate plot by referencing visualisations.py
     plot_file = years_bar(years) if years else None
 
+    venues = [hit.venue_type for hit in hits if hit.venue_type]
+    pie_plot = venue_pie(venues) if venues else None
+
     hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
     return render_template("results.html", query=query, method=method,
-                           results=hits, plot_file=plot_file)
+                           results=hits, plot_file=plot_file,
+                           pie_plot=pie_plot)
 
 @app.route("/results/<index>")
 def musical(index: str):

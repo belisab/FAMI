@@ -18,9 +18,22 @@ musicals = load_documents()
 
 #print(type(search_results))
 
-def venue_pie():
+def venue_pie(venues, filename="piechart.png"):
     #plt.ion()
+    counted_venues = Counter(venues)
+    labels = list(counted_venues.keys())
+    sizes = list(counted_venues.values())
+
     plt.figure()
+    plt.pie(sizes, labels = labels)
+    plt.title("Distribution of venue types")
+
+    filepath = os.path.join("static", filename)
+
+    plt.savefig(filepath)
+    plt.close()
+
+    return filename
 
 
 def get_decades(years):
