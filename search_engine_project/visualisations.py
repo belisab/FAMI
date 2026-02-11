@@ -19,7 +19,6 @@ musicals = load_documents()
 #print(type(search_results))
 
 def venue_pie(venues, filename="piechart.png"):
-    #plt.ion()
     counted_venues = Counter(venues)
     labels = list(counted_venues.keys())
     sizes = list(counted_venues.values())
@@ -27,6 +26,7 @@ def venue_pie(venues, filename="piechart.png"):
     plt.figure()
     plt.pie(sizes, labels = labels)
     plt.title("Distribution of venue types")
+
 
     filepath = os.path.join("static", filename)
 

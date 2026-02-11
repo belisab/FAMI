@@ -53,6 +53,7 @@ def results():
 
     hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
+    # return plots
     return render_template("results.html", query=query, method=method,
                            results=hits, plot_file=plot_file,
                            pie_plot=pie_plot)
