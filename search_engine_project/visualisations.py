@@ -19,7 +19,6 @@ musicals = load_documents()
 #print(type(search_results))
 
 def venue_pie():
-    #plt.ion()
     plt.figure()
 
 
