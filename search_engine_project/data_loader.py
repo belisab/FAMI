@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 from algorithms.doc import SearchableDocument
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from markdown import markdown
 
 @dataclass
@@ -15,6 +15,7 @@ class Musical(SearchableDocument):
     description: str | None
     cast: str | None
     songs: str | None
+    tags: list[str] = field(default_factory=list)
 
     def get_searchable_data(self) -> str:
         return f"{self.title} ({self.venue_type} {self.year_released})\n\n" + (
@@ -28,11 +29,13 @@ def load_documents() -> list[Musical]:
     base_dir = Path(os.path.dirname(os.path.abspath(__file__))) / ".." / "Week_4" / "scraping"
     metadata = json.loads((base_dir / "musicals.json").read_text())
     pagedata = json.loads((base_dir / "musicals-data.json").read_text())
+    tags_data = json.loads((base_dir / "musical_tags.json").read_text(encoding="utf-8"))
 
     # I changed this so meta is a callable dictionary
     musicals: list[Musical] = []
     for index, (musical_id, meta) in enumerate(metadata.items()):
         data = pagedata.get(musical_id, {})
+        title = meta.get("title", "")
         musicals.append(Musical(
             index=index,
             title=meta.get("title",""),
@@ -42,6 +45,7 @@ def load_documents() -> list[Musical]:
             description=data.get("description") if data else None,
             cast=data.get("cast") if data else None,
             songs=data.get("songs") if data else None,
+            tags=tags_data.get(title, []),
         ))
 
     return musicals
