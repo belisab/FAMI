@@ -18,6 +18,7 @@ Isabel:
 5.2.    1 hour      added background and styled fonts and boxes in style.css
 10.2.   2.5 hours   working on visualisations with Fiia
 11.2.   1.75 hours   visualisations.py with Fiia
+16.2.   1.5         fixing errors (with little success)
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages
