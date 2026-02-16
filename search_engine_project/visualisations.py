@@ -1,4 +1,6 @@
 from data_loader import load_documents
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from collections import Counter
 import os
