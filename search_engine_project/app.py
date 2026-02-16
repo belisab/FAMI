@@ -44,7 +44,7 @@ def results():
 
     # for visualisations
     # extract years
-    years = [int(hit.year_released) for hit in hits if hit.year_released]
+    years = [int(hit.year_released) for hit in hits if int(hit.year_released)]
     # generate plot by referencing visualisations.py
     plot_file = years_bar(years) if years else None
 

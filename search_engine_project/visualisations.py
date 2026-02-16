@@ -28,7 +28,7 @@ def venue_pie(venues, filename="piechart.png"):
     plt.title("Distribution of venue types")
 
 
-    filepath = os.path.join("static", filename)
+    filepath = os.path.join("static", filename).replace("\\", "/")
 
     plt.savefig(filepath)
     plt.close()
@@ -60,8 +60,9 @@ def years_bar(years, filename="barplot.png"):
     y = [counted_decades[d] for d in x]
     decade_labels = [f"{d}s" for d in x]
 
-
-    filepath = os.path.join("static", filename)
+    
+    filepath = os.path.join("static", filename).replace("\\", "/")
+    print(filepath)
 
     plt.figure(figsize=(8,4))
     plt.bar(decade_labels, y)
