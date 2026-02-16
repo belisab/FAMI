@@ -8,8 +8,8 @@ musicals = load_documents()
 #print(type(musicals[0]))
 #print(musicals[:10])
 
-#venue_types = [m.venue_type for m in musicals]
-#years = [m.year_released[:4] for m in musicals]
+venues = [m.venue_type for m in musicals]
+years = [m.year_released[:4] for m in musicals]
 #years.sort()
 #print(venue_types)
 #print(years)
