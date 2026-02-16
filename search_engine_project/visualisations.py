@@ -56,7 +56,7 @@ def years_bar(years, filename="barplot.png"):
 
     filepath = os.path.join("static", filename)
 
-    plt.figure(figsize=(8,4))
+    #plt.figure(figsize=(8,4))
     plt.bar(decade_labels, y)
     plt.title("Musicals according to their release year")
     plt.xlabel("Year released")

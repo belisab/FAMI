@@ -1,4 +1,3 @@
-/* paste URL into browser: http://127.0.0.1:5000/ */
 /* NOTE TO SELF: #ID, .class */
 
 /* Make the body fill the viewport and apply the image */
@@ -11,7 +10,7 @@ body {
 
   display: flex;        /* make body a flex container that fills the viewport */
   flex-direction: column;
-  /* Point to your image (adjust the path as needed) */
+  /* point to image in same directory */
   /*from: https://images.pexels.com/photos/976862/pexels-photo-976862.jpeg */
   background-image: url("stage_pexels.jpg");
 
