@@ -20,6 +20,13 @@
         {% for r in results %}
           <li style="margin-bottom: 12px; white-space: pre-wrap;">
             <a href="{{ url_for('musical', index=r['index']) }}">{{ r["title"] }}</a>
+            {% if r.tags %}
+              <div class="tags">
+                {% for tag in r.tags %}
+                  <span class="tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
           </li>
         {% endfor %}
       </ol>

@@ -21,9 +21,17 @@ FIELDS = ["description", "synopsis"]  # keep it light; add "songs" or "cast" if 
 SPACY_MODEL_NAME = "en_core_web_sm"
 
 # Paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../FAMI/search_engine_project
-DATA_PATH = os.path.join(BASE_DIR, "static", "musicals-data.json")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+SCRAPING_DIR = os.path.abspath(
+    os.path.join(BASE_DIR, "..", "Week_4", "scraping")
+)
+
+META_PATH = os.path.join(SCRAPING_DIR, "musicals.json")
+DATA_PATH = os.path.join(SCRAPING_DIR, "musicals-data.json")
+
 OUT_PATH = os.path.join(BASE_DIR, "static", "musical_tags.json")
+
 
 
 def clean_text(s: str) -> str:
@@ -64,8 +72,12 @@ def extract_keywords(text: str, spacy_nlp, top_n: int = TOP_N):
 
 
 def main():
+    if not os.path.exists(META_PATH):
+        raise FileNotFoundError(f"Metadata JSON not found: {META_PATH}")
+
     if not os.path.exists(DATA_PATH):
         raise FileNotFoundError(f"Input JSON not found: {DATA_PATH}")
+
 
     # Load spaCy once (huge speedup + fixes your tokenizer error)
     try:
@@ -78,8 +90,11 @@ def main():
         )
 
     # Load musicals data
+    with open(META_PATH, "r", encoding="utf-8") as f:
+        metadata = json.load(f)
+
     with open(DATA_PATH, "r", encoding="utf-8") as f:
-        musical_data = json.load(f)
+        pagedata = json.load(f)
 
     # Resume support: if output exists, keep what you've already done
     if os.path.exists(OUT_PATH):
@@ -91,7 +106,7 @@ def main():
     else:
         tags_by_title = {}
 
-    items = list(musical_data.items())
+    items = list(metadata.items())
     total = len(items)
 
     start_all = time.time()
@@ -104,8 +119,11 @@ def main():
     print("-" * 60)
 
     try:
-        for i, (_musical_id, musical) in enumerate(items, start=1):
-            title = clean_text(musical.get("title", ""))
+        for i, (musical_id, meta) in enumerate(items, start=1):
+            title = clean_text(meta.get("title", ""))
+
+            musical = pagedata.get(musical_id, {})
+
 
             if not title:
                 continue
