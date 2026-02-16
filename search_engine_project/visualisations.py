@@ -43,13 +43,6 @@ def get_decades(years):
 
     return counted_decades
 
-    #counted_years = Counter(years)
-    #years_sorted = sorted(counted_years.keys())
-    #count_sorted = [counted_years[y] for y in counted_years]
-    #print(count_sorted)
-    #print(years_sorted)
-    #print(len(years_sorted))
-    #return years_sorted, count_sorted
 
 def years_bar(years, filename="barplot.png"):
     if not years:
@@ -76,10 +69,6 @@ def years_bar(years, filename="barplot.png"):
 
 
 
-
-#def main():
-    #years_bar()
-#main()
 
 
 
