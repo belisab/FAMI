@@ -33,7 +33,7 @@ def results():
     query = request.args.get("query", "")
     method = request.args.get("method", "boolean")
 
-    MAX_RESULTS = 5 # Limit the number of results to display
+    MAX_RESULTS = 10 # Limit the number of results to display
 
     if method == "boolean":
         hits = boolean_engine.search(query)
@@ -44,7 +44,7 @@ def results():
 
     # for visualisations
     # extract years
-    years = [int(hit.year_released) for hit in hits if hit.year_released]
+    years = [int(hit.year_released[:4]) for hit in hits if hit.year_released[:4]]
     # generate plot by referencing visualisations.py
     plot_file = years_bar(years) if years else None
 
