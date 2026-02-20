@@ -1,0 +1,8 @@
+.search-methods {
+  display: flex;
+  /*justify-content: center;*/
+  align-items: flex-start;
+  gap: 24px;
+  margin: 20px auto;
+  flex-wrap: wrap;   /* allows stacking on narrow screens */
+}

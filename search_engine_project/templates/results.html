@@ -5,16 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Results</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='results.css') }}">
 </head>
 <body>
   <header>
     <h1>Results</h1>
     <p><b>Query:</b> {{ query }}</p>
     <p><b>Method:</b> {{ method }}</p>
-    <a href="{{ url_for('search') }}">Back to search</a>
+    <a id="link-back" href="{{ url_for('search') }}">Back to search</a>
   </header>
 
   <main>
+    <div class="charts-row">
+    {% if plot_file %}
+      <figure id="release-year-chart">
+        <h2>Release Year Distribution</h2>
+        <img src="{{ url_for('static', filename=plot_file) }}" alt="Bar chart">
+      </figure>
+    {% endif %}
+
+    {% if pie_plot %}
+      <figure id="venue-type-chart">
+        <h2>Venue Type Distribution</h2>
+        <img src="{{ url_for('static', filename=pie_plot) }}" alt="Pie chart">
+      </figure>
+    {% endif %}
+    </div>
+
     {% if results and results|length > 0 %}
       <ol>
         {% for r in results %}
@@ -34,15 +51,9 @@
       <p>No results.</p>
     {% endif %}
 
-    {% if plot_file %}
-    <h2>Release Year Distribution</h2>
-    <img src="{{ url_for('static', filename=plot_file) }}" alt="Bar chart">
-    {% endif %}
 
-    {% if pie_plot %}
-    <h2>Venue Type Distribution</h2>
-    <img src="{{ url_for('static', filename=pie_plot) }}" alt="Pie chart">
-    {% endif %}
+
+
 
   </main>
 

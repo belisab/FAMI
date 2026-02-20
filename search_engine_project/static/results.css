@@ -1,0 +1,35 @@
+/* Put bar and pie chart side-by-side */
+.charts-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  margin: 20px auto;
+  flex-wrap: wrap;   /* allows stacking on narrow screens */
+}
+
+/* Optional styling for individual chart blocks */
+#release-year-chart,
+#venue-type-chart {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 12px;
+  border-radius: 12px;
+  max-width: 400px;
+}
+
+/* Ensure chart images don't overflow */
+#release-year-chart img,
+#venue-type-chart img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+ol {
+
+}
+
+#link-back {
+    color: black;
+    margin: 30px
+}

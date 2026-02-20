@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search engine</title>
@@ -9,13 +10,20 @@
 <body>
     
 <header>
-    <h1>Search musicals!</h1>
-    <p>(or whatever we decide on)</p>
-    <p>Enter your search query/keywords to 
-        find the information you desire.
-        You can use Boolean or tf-idf search.
+    <h1>Search for musicals!</h1>
+    <div class="search-methods">
+    <p>Enter your search query/keywords to find the information you desire.
+        You can use Boolean, TF-IDF, or semantic search.
     </p>
 
+    <p> Boolean:<br> you can use operators "and", "or", "not" as well as as
+        parentheses "()".
+        <br> <br>
+        TF-IDF: <br> add description here
+        <br> <br>
+        Semantic search: <br> add description here
+    </p>
+    </div>
 </header>    
 
 <main>
