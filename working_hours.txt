@@ -19,7 +19,8 @@ Isabel:
 10.2.   2.5 hours   started creating visualisations with Fiia
 11.2.   1.75 hours  created diagrams (visualisations.py) with Fiia
 16.2.   1.5         fixing bugs (with only little success)
-20.2.   14:15
+20.2.   4h          created and modified .css files and fixed some bugs in
+                    app.py
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages
