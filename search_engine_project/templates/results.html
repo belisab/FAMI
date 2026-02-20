@@ -9,13 +9,18 @@
 </head>
 <body>
   <header>
-    <h1>Results</h1>
-    <p><b>Query:</b> {{ query }}</p>
-    <p><b>Method:</b> {{ method }}</p>
+    <div id="search-info">
+    <h1>Results for</h1>
+    <p><b>query:</b> "{{ query }}"</p>
+    <p><b>with search method:</b> "{{ method }}"</p>
+    </div>
+
     <a id="link-back" href="{{ url_for('search') }}">Back to search</a>
   </header>
 
   <main>
+
+
     <div class="charts-row">
     {% if plot_file %}
       <figure id="release-year-chart">
@@ -33,16 +38,17 @@
     </div>
 
     {% if results and results|length > 0 %}
-      <ol>
+      <ol class="results-grid">
         {% for r in results %}
-          <li style="margin-bottom: 12px; white-space: pre-wrap;">
+          <li class="result-box">
             <a href="{{ url_for('musical', index=r['index']) }}">{{ r["title"] }}</a>
+
             {% if r.tags %}
-              <div class="tags">
-                {% for tag in r.tags %}
-                  <span class="tag">{{ tag }}</span>
-                {% endfor %}
-              </div>
+            <div class="tags">
+              {% for tag in r.tags %}
+                <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
             {% endif %}
           </li>
         {% endfor %}

@@ -1,3 +1,27 @@
+#search-info {
+  display: flex;
+  align-items: center;
+  margin: 30px auto;
+  flex-wrap: wrap;   /* allows stacking on narrow screens */
+  /*background: rgba(255, 255, 255, 0.35);*/
+
+
+
+}
+
+#search-info h1,
+#search-info p {
+  color: white;
+  font-size: 200%;
+  margin: 0px;
+ /*background: rgba(255, 255, 255, 0.7);  /* white with 40% opacity */
+  padding: 3px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+
+
 /* Put bar and pie chart side-by-side */
 .charts-row {
   display: flex;
@@ -25,11 +49,66 @@
   display: block;
 }
 
-ol {
-
-}
 
 #link-back {
-    color: black;
-    margin: 30px
+    color: white;
+    margin: 30px;
+    padding: 15px;
 }
+
+/* Remove default list styling */
+.results-grid {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+
+  /* Enable side-by-side boxes */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* or flex-start */
+}
+
+/* Individual result box */
+.result-box {
+  background: rgba(255, 255, 255);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 16px;
+  width: 260px;         /* ← controls box width */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+
+  /* Allow smooth hover effect */
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  white-space: normal;  /* override your inline style */
+}
+
+/* Hover effect (optional) */
+.result-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* Result title link */
+.result-box a {
+  color: black;
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+
+.result-box a:hover {
+  text-decoration: underline;
+}
+
+/* Tag styling */
+.tag {
+  background: rgba(0,0,0,0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-right: 6px;
+  display: inline-block;
+  font-size: 0.8rem;
+  color: black;
+}
+``

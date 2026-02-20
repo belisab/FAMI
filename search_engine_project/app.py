@@ -33,7 +33,7 @@ def results():
     query = request.args.get("query", "")
     method = request.args.get("method", "boolean")
 
-    MAX_RESULTS = 10 # Limit the number of results to display
+    MAX_RESULTS = 20 # Limit the number of results to display
 
     if method == "boolean":
         hits = boolean_engine.search(query)

@@ -1,8 +1,28 @@
 .search-methods {
   display: flex;
-  /*justify-content: center;*/
+  justify-content: center;
   align-items: flex-start;
   gap: 24px;
-  margin: 20px auto;
+  margin: 30px auto;
   flex-wrap: wrap;   /* allows stacking on narrow screens */
+  /*background: rgba(255, 255, 255, 0.7)*/
+
 }
+
+p {
+  color: black;
+  font-size: 100%;
+  margin: 30px;
+  background: rgba(255, 255, 255, 0.8);  /* white with 40% opacity */
+  padding: 15px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+#search-box {
+    margin: 30px;
+    padding: 15px;
+    border-radius: 12px;
+    max-width: 500px;
+}
+
