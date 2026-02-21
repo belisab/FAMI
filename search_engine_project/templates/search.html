@@ -28,11 +28,45 @@
     </label><br>
     <select id="search" name="method">
         <option value="boolean">Boolean search</option>
-        <option value="semantic">Semantic search</option>
+        {% if semantic_engine_loaded %}
+            <option value="semantic">Semantic search</option>
+        {% endif %}
     </select>
     <br><br>
 
     <button type="submit">Go!</button>
+
+    {% if not semantic_engine_loaded %}
+        <div id="semantic-search-loading">
+            <p>
+                <span class="loading-circle"></span> Loading semantic search engine, this will take a while...
+                Note that you can't use semantic searching until the model has been loaded. 
+                Other search methods are available though :-)
+            </p>
+            <noscript>
+                <p>JavaScript is disabled, you will need to manually refresh the page to see if semantic search engine is loaded.</p>
+            </noscript>
+        </div>
+        <div id="semantic-search-loaded" class="hide">
+            <p>Semantic search engine loaded! Please <a href="/search">reload the page</a> to use it.</p>
+        </div>
+        <script defer>
+            async function queryStatus() {
+                const status = await fetch("{{ url_for('semantic_engine_status') }}");
+                const json = await status.json();
+                if (json["semantic-engine-loaded"]) {
+                    console.log("Semantic engine has been loaded!");
+                    document.querySelector("#semantic-search-loading").classList.add("hide");
+                    document.querySelector("#semantic-search-loaded").classList.remove("hide");
+                }
+                else {
+                    console.log("Semantic engine not yet loaded, querying again in a few seconds...");
+                    setTimeout(queryStatus, 10000);
+                }
+            }
+            queryStatus();
+        </script>
+    {% endif %}
     </form>
     <p>Search methods:
 

@@ -7,8 +7,12 @@ Fiia:
 10.2.   3 hours --> visualizations with Isabel
 
 Aaro:
-19.1.   1.5 hours
-26.1.   2 hours
+19.1.   1.5 hours   scrape Wikipedia for talk pages (84089ba)
+26.1.   2 hours     refactoring (767c4f8), implement generic semantic search engine (2195c33)
+2.2.    1 hour      incorporate Manuel's wildcard searching implementation in the generic boolean search engine (6212bad)
+7.2.    2 hours     scrape wikipedia for musicals (7290441)
+9.2.    2 hours     implement musical-specific pages (0f408f1), support markdown rendering for synopsies (c5e2d8e)
+21.2.   2 hours     load semantic search engine in the background, saving 
 
 Isabel:
 19.1.   2 hours     query loop for Boolean search, pair coding with Fiia

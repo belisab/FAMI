@@ -1,6 +1,7 @@
 
 import gensim # type: ignore
 from gensim.models.keyedvectors import KeyedVectors # type: ignore
+from gensim.models import Word2Vec # type: ignore
 import gensim.downloader as gsapi # type: ignore
 import typing
 from typing import Sequence
@@ -20,8 +21,7 @@ class SemanticSearchEngine:
     
     @staticmethod
     def install_embeddings() -> typing.Any:
-        print("Loading dataset, this will take a while")
-        return gsapi.load("fasttext-wiki-news-subwords-300") # type: ignore
+        return gsapi.load("glove-wiki-gigaword-300") # type: ignore
 
     def __init__(self, ft: typing.Any, documents: Sequence[SearchableDocument]) -> None:
         self.ft = ft

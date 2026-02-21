@@ -3,6 +3,8 @@ from data_loader import load_documents
 from visualisations import years_bar
 from visualisations import venue_pie
 
+import threading
+
 app = Flask(__name__)
 
 from algorithms.boolean import BooleanSearchEngine
@@ -10,15 +12,24 @@ from algorithms.semantic import SemanticSearchEngine
 
 documents = load_documents()
 boolean_engine = BooleanSearchEngine(documents)
+semantic_engine: SemanticSearchEngine | None = None
 
-_semantic_engine = None  # lazy
+# Thread safety my beloved :3
+semantic_engine_lock = threading.Lock()
 
-def get_semantic_engine():
-    global _semantic_engine
-    if _semantic_engine is None:
-        ft_model = SemanticSearchEngine.install_embeddings()
-        _semantic_engine = SemanticSearchEngine(ft_model, documents)
-    return _semantic_engine
+def load_semantic_engine():
+    global semantic_engine
+    print("Downloading dataset, this will take a while")
+    ft_model = SemanticSearchEngine.install_embeddings()
+    print("Loading dataset")
+    se = SemanticSearchEngine(ft_model, documents)
+    print("Dataset loaded")
+
+    # Avoid holding the lock for too long
+    with semantic_engine_lock:
+        semantic_engine = se
+
+semantic_load_thread = threading.Thread(target=load_semantic_engine)
 
 @app.route("/")
 def home():
@@ -26,7 +37,15 @@ def home():
 
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    with semantic_engine_lock:
+        if not semantic_engine and not semantic_load_thread.is_alive():
+            semantic_load_thread.start()
+        return render_template("search.html", semantic_engine_loaded=semantic_engine is not None)
+
+@app.route("/semantic-engine-status")
+def semantic_engine_status():
+    with semantic_engine_lock:
+        return { "semantic-engine-loaded": semantic_engine is not None }
 
 @app.route("/results")
 def results():
@@ -38,7 +57,10 @@ def results():
     if method == "boolean":
         hits = boolean_engine.search(query)
     elif method == "semantic":
-        hits = get_semantic_engine().search(query)
+        with semantic_engine_lock:
+            if semantic_engine is None:
+                return "Semantic search engine has not yet been loaded", 500
+            hits = semantic_engine.search(query)
     else:
         hits = []
 

@@ -26,3 +26,26 @@ p {
     max-width: 500px;
 }
 
+.hide {
+  display: none;
+}
+
+.loading-circle {
+  border: 0px solid black;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: loading-circle-rotation 1s linear infinite;
+  width: .8rem;
+  height: .8rem;
+  border-width: 0.1rem;
+}
+@keyframes loading-circle-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
