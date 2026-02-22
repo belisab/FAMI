@@ -28,6 +28,7 @@
     </label><br>
     <select id="search" name="method">
         <option value="boolean">Boolean search</option>
+        <option value="TF-IDF">TF-IDF search</option>
         {% if semantic_engine_loaded %}
             <option value="semantic">Semantic search</option>
         {% endif %}

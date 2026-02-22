@@ -9,10 +9,12 @@ app = Flask(__name__)
 
 from algorithms.boolean import BooleanSearchEngine
 from algorithms.semantic import SemanticSearchEngine
+from algorithms.tfidf import TfIdfSearchEngine
 
 documents = load_documents()
 boolean_engine = BooleanSearchEngine(documents)
 semantic_engine: SemanticSearchEngine | None = None
+tf_idf_engine = TfIdfSearchEngine(documents)
 
 # Thread safety my beloved :3
 semantic_engine_lock = threading.Lock()
@@ -61,6 +63,8 @@ def results():
             if semantic_engine is None:
                 return "Semantic search engine has not yet been loaded", 500
             hits = semantic_engine.search(query)
+    elif method == "tf-idf":
+        hits = tf_idf_engine.search_tfidf(query)
     else:
         hits = []
 

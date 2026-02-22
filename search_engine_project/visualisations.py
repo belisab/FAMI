@@ -26,12 +26,7 @@ def venue_pie(venues, filename="piechart.png"):
     plt.pie(sizes, labels = labels)
     plt.title("Distribution of venue types")
 
-<<<<<<< HEAD
-
-    filepath = os.path.join("static", filename).replace("\\", "/")
-=======
     filepath = os.path.join("static", filename)
->>>>>>> adbc3050a2e92084a62ed966bd1fa3a391b990e1
 
     plt.savefig(filepath)
     plt.close()
