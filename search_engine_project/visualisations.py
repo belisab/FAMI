@@ -1,4 +1,6 @@
 from data_loader import load_documents
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from collections import Counter
 import os
@@ -8,15 +10,12 @@ musicals = load_documents()
 #print(type(musicals[0]))
 #print(musicals[:10])
 
-#venue_types = [m.venue_type for m in musicals]
-#years = [m.year_released[:4] for m in musicals]
-#years.sort()
-#print(venue_types)
-#print(years)
+venues = [m.venue_type for m in musicals]
 
-#search_results = results
-
-#print(type(search_results))
+# some of the publication dates are not simply 4-digit numbers but year ranges
+# or multiple years. This makes sure only the first year mentioned is used so
+# that it can be treated as int and displayed in the diagram
+four_digit_years = [m.year_released[:4] for m in musicals]
 
 def venue_pie(venues, filename="piechart.png"):
     counted_venues = Counter(venues)
@@ -27,8 +26,12 @@ def venue_pie(venues, filename="piechart.png"):
     plt.pie(sizes, labels = labels)
     plt.title("Distribution of venue types")
 
+<<<<<<< HEAD
 
     filepath = os.path.join("static", filename).replace("\\", "/")
+=======
+    filepath = os.path.join("static", filename)
+>>>>>>> adbc3050a2e92084a62ed966bd1fa3a391b990e1
 
     plt.savefig(filepath)
     plt.close()
@@ -36,20 +39,13 @@ def venue_pie(venues, filename="piechart.png"):
     return filename
 
 
-def get_decades(years):
+def get_decades(four_digit_years):
     # print(years[0], print(type(int(years[0]))))
-    decades = [(int(year) // 10) * 10 for year in years]
+    decades = [(int(year) // 10) * 10 for year in four_digit_years]
     counted_decades = Counter(decades)
 
     return counted_decades
 
-    #counted_years = Counter(years)
-    #years_sorted = sorted(counted_years.keys())
-    #count_sorted = [counted_years[y] for y in counted_years]
-    #print(count_sorted)
-    #print(years_sorted)
-    #print(len(years_sorted))
-    #return years_sorted, count_sorted
 
 def years_bar(years, filename="barplot.png"):
     if not years:
@@ -64,7 +60,7 @@ def years_bar(years, filename="barplot.png"):
     filepath = os.path.join("static", filename).replace("\\", "/")
     print(filepath)
 
-    plt.figure(figsize=(8,4))
+    #plt.figure(figsize=(8,4))
     plt.bar(decade_labels, y)
     plt.title("Musicals according to their release year")
     plt.xlabel("Year released")
@@ -77,10 +73,6 @@ def years_bar(years, filename="barplot.png"):
 
 
 
-
-#def main():
-    #years_bar()
-#main()
 
 
 

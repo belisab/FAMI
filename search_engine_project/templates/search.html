@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search engine</title>
@@ -9,34 +10,81 @@
 <body>
     
 <header>
-    <h1>Search musicals!</h1>
-    <p>(or whatever we decide on)</p>
-    <p>Enter your search query/keywords to 
-        find the information you desire.
-        You can use Boolean or tf-idf search.
-    </p>
+    <h1>Search for musicals!</h1>
 
 </header>    
 
 <main>
-    <form action="{{ url_for('results') }}" method="get">
-        <label for="query">
-         What do you want to search?
-        </label><br>
-        <input type="text" id="query" name="query" placeholder="Start typing.." required>
-        <br><br>
+    <div class="search-methods">
+    <form id="search-box" action="{{ url_for('results') }}" method="get">
+    <label for="query">
+     What are you interested in?
+    </label><br>
+    <input type="text" id="query" name="query" placeholder="Start typing.." required>
+    <br><br>
 
-        <label for="search">
-            Choose search method:
-        </label><br>
-        <select id="search" name="method">
-            <option value="boolean">Boolean search</option>
+    <label for="search">
+        Choose search method:
+    </label><br>
+    <select id="search" name="method">
+        <option value="boolean">Boolean search</option>
+        {% if semantic_engine_loaded %}
             <option value="semantic">Semantic search</option>
-        </select>
-        <br><br>
+        {% endif %}
+    </select>
+    <br><br>
 
-        <button type="submit">Go!</button>
+    <button type="submit">Go!</button>
+
+    {% if not semantic_engine_loaded %}
+        <div id="semantic-search-loading">
+            <p>
+                <span class="loading-circle"></span> Loading semantic search engine, this will take a while...
+                Note that you can't use semantic searching until the model has been loaded. 
+                Other search methods are available though :-)
+            </p>
+            <noscript>
+                <p>JavaScript is disabled, you will need to manually refresh the page to see if semantic search engine is loaded.</p>
+            </noscript>
+        </div>
+        <div id="semantic-search-loaded" class="hide">
+            <p>Semantic search engine loaded! Please <a href="/search">reload the page</a> to use it.</p>
+        </div>
+        <script defer>
+            async function queryStatus() {
+                const status = await fetch("{{ url_for('semantic_engine_status') }}");
+                const json = await status.json();
+                if (json["semantic-engine-loaded"]) {
+                    console.log("Semantic engine has been loaded!");
+                    document.querySelector("#semantic-search-loading").classList.add("hide");
+                    document.querySelector("#semantic-search-loaded").classList.remove("hide");
+                }
+                else {
+                    console.log("Semantic engine not yet loaded, querying again in a few seconds...");
+                    setTimeout(queryStatus, 10000);
+                }
+            }
+            queryStatus();
+        </script>
+    {% endif %}
     </form>
+    <p>Search methods:
+
+        <br> <br>
+        Boolean:<br> Exact keyword matching. Use operators "and", "or", "not", as well as as
+        parentheses "()" or perform wildcard searches with "*".
+        <br> <br>
+        TF-IDF: <br> Term frequency–inverse document frequency is a measure
+        of importance of your search word(s). It evaluates word relevance
+        by balancing how often the search word(s) appear in a specific document
+        (TF) against its frequency across a larger document set (IDF).
+        <br> <br>
+        Semantic search: <br> Semantic search, or neural search, encodes queries
+        and documents into dense, contextualized vectors. It
+        captures semantic relationships and similarities between words based on
+        their context.
+    </p>
+    </div>
 </main>
 
 {% include "footer.html" %}

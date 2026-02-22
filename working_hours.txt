@@ -8,8 +8,12 @@ Fiia:
 11.2.   2 hours --> making charts and fixing render issues
 
 Aaro:
-19.1.   1.5 hours
-26.1.   2 hours
+19.1.   1.5 hours   scrape Wikipedia for talk pages (84089ba)
+26.1.   2 hours     refactoring (767c4f8), implement generic semantic search engine (2195c33)
+2.2.    1 hour      incorporate Manuel's wildcard searching implementation in the generic boolean search engine (6212bad)
+7.2.    2 hours     scrape wikipedia for musicals (7290441)
+9.2.    2 hours     implement musical-specific pages (0f408f1), support markdown rendering for synopsies (c5e2d8e)
+21.2.   2 hours     load semantic search engine in the background, saving 
 
 Isabel:
 19.1.   2 hours     query loop for Boolean search, pair coding with Fiia
@@ -17,10 +21,17 @@ Isabel:
 27.1    1.5 hours   tf-idf, pair coding with Fiia
 2.2.    3 hours     work on style.css and ui.html
 5.2.    1 hour      added background and styled fonts and boxes in style.css
-10.2.   2.5 hours   working on visualisations with Fiia
-11.2.   1.75 hours   visualisations.py with Fiia
+10.2.   2.5 hours   started creating visualisations with Fiia
+11.2.   1.75 hours  created diagrams (visualisations.py) with Fiia
+16.2.   1.5         fixing bugs (with only little success)
+20.2.   4h          created and modified .css files and fixed some bugs in
+                    app.py
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages
-26.1.	0.5 hours   semantic search
+26.1.	0.5 hour   semantic search
 01.2.	2.5 hours   wildcards search implementation
+-       1.5 hours   creation of the flask app, data_loader, and HTML refinement
+14.2.   2.5 hours   Implement theme extraction and tag generation for search results
+22.2.   2   hours   fixed the boolean search 
+
