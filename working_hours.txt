@@ -28,5 +28,9 @@ Isabel:
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages
-26.1.	0.5 hours   semantic search
+26.1.	0.5 hour   semantic search
 01.2.	2.5 hours   wildcards search implementation
+-       1.5 hours   creation of the flask app, data_loader, and HTML refinement
+14.2.   2.5 hours   Implement theme extraction and tag generation for search results
+22.2.   2   hours   fixed the boolean search 
+
