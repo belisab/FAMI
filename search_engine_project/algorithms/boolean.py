@@ -9,14 +9,23 @@ import typing
 from typing import Sequence
 import fnmatch
 from algorithms.doc import SearchableDocument
+import re
 
 OPERATORS = {
     "and": "&",
     "or":  "|",
+    "&":   "&",
+    "|":   "|",
     "not": "1 - ",
     "(":   "(",
     ")":   ")",
+    "__EMPTY__": "empty_row",
 }
+# Map both word-based operators ("and", "or") and symbol-based operators ("&", "|")
+# so users can write either style in the query string.
+#
+# "__EMPTY__" is a special placeholder used when a wildcard expands to no terms:
+# it is rewritten to `empty_row` to keep the final eval() expression valid.
 
 KGramIndex = dict[str, set[str]]
 
@@ -76,21 +85,26 @@ def expand_wildcards_in_query(query: str, kgram_index: KGramIndex, vocabulary: l
             if expanded:
                 new_tokens.append("(" + " or ".join(expanded) + ")")
             else:
-                new_tokens.append("( )")  # no match
+                new_tokens.append("__EMPTY__")  # no match
         else:
             new_tokens.append(t)
 
     return " ".join(new_tokens)
 
 def rewrite_query(query: str):
-    return " & ".join(
-        # If the search term exists in our dictionary of operators, get it, 
-        # otherwise find occurrences of the term in `td_matrix``. If the term 
-        # is not in our dictionary, then the query results in 0 (since the 
-        # term does not occur in any of the documents)
-        OPERATORS.get(t, f'(self.td_matrix[self.t2i["{t}"]] if "{t}" in self.t2i else empty_row)')
+    return " ".join(
+        OPERATORS.get(
+            t,
+            f'(self.td_matrix[self.t2i["{t}"]] if "{t}" in self.t2i else empty_row)'
+        )
         for t in query.split()
     )
+        # Rewrite the tokenized Boolean query into a Python expression over document-term
+        # vectors. We MUST join tokens with spaces (not with "&"), because the query already
+        # contains explicit operators like "&" and "|" after normalization.
+        #
+        # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
+        # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
 
 class BooleanSearchEngine:
     documents: Sequence[SearchableDocument]
@@ -114,7 +128,22 @@ class BooleanSearchEngine:
         self.kgram_index = build_kgram_index(self.t2i.keys()) if support_wildcards else None
 
     def search(self, query: str) -> list[SearchableDocument]:
-        query = query.lower().strip()
+
+        # Separate parentheses and operators so split() can tokenize correctly
+        query = query.replace("(", " ( ").replace(")", " ) ")
+        query = query.replace("&", " & ").replace("|", " | ")
+
+        # Normalize to lowercase for consistent matching
+        query = query.lower()
+
+        # Collapse repeated operators (e.g., &&&, |||) into a single operator
+        query = re.sub(r"(?:\s*&\s*){2,}", " & ", query)
+        query = re.sub(r"(?:\s*\|\s*){2,}", " | ", query)
+
+        # Remove extra whitespace
+        query = re.sub(r"\s+", " ", query).strip()
+
+        # Return empty result if query is empty
         if query == "":
             return []
         
