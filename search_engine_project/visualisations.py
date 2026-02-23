@@ -4,6 +4,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from collections import Counter
 import os
+import matplotlib.ticker as mticker
 
 # all musicals with metadata like year_released and venue_type
 musicals = load_documents()
@@ -24,7 +25,7 @@ def venue_pie(venues, filename="piechart.png"):
 
     plt.figure()
     plt.pie(sizes, labels = labels)
-    plt.title("Distribution of venue types")
+    #plt.title("Distribution of venue types")
 
     filepath = os.path.join("static", filename)
 
@@ -36,7 +37,13 @@ def venue_pie(venues, filename="piechart.png"):
 
 def get_decades(four_digit_years):
     # print(years[0], print(type(int(years[0]))))
-    decades = [(int(year) // 10) * 10 for year in four_digit_years]
+    if (len(four_digit_years)) < 20:
+        decades = [(int(year) // 10) * 10 for year in four_digit_years]
+    else:
+        # if there is many hits, the decades on the diagram get cluttered
+        # so show quarters of a century instead
+        decades = [(int(year) // 25) * 25 for year in four_digit_years]
+
     counted_decades = Counter(decades)
 
     return counted_decades
@@ -53,13 +60,20 @@ def years_bar(years, filename="barplot.png"):
 
     
     filepath = os.path.join("static", filename).replace("\\", "/")
-    print(filepath)
+    #print(filepath)
 
     #plt.figure(figsize=(8,4))
     plt.bar(decade_labels, y)
-    plt.title("Musicals according to their release year")
+    #print(len(years))
+
+    #plt.title("Musicals according to their release year")
     plt.xlabel("Year released")
     plt.ylabel("Number of musicals")
+
+    #we do not need decimals so show integers only on y-axis
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # no decimals
+
     plt.tight_layout()
     plt.savefig(filepath)
     plt.close()
