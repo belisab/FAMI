@@ -10,6 +10,8 @@ body {
 
   display: flex;        /* make body a flex container that fills the viewport */
   flex-direction: column;
+  align-items: center;
+
   /* point to image in same directory */
   /*from: https://images.pexels.com/photos/976862/pexels-photo-976862.jpeg */
   background-image: url("stage_pexels.jpg");

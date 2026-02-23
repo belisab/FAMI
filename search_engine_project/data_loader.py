@@ -8,6 +8,7 @@ from markdown import markdown
 @dataclass
 class Musical(SearchableDocument):
     index: int
+    wikipedia_url: str
     title: str
     year_released: str
     venue_type: str | None
@@ -15,7 +16,7 @@ class Musical(SearchableDocument):
     description: str | None
     cast: str | None
     songs: str | None
-    tags: list[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list[str])
 
     def get_searchable_data(self) -> str:
         return f"{self.title} ({self.venue_type} {self.year_released})\n\n" + (
@@ -38,6 +39,7 @@ def load_documents() -> list[Musical]:
         title = meta.get("title", "")
         musicals.append(Musical(
             index=index,
+            wikipedia_url=f"https://en.wikipedia.org{data.get('canonical_url')}",
             title=meta.get("title",""),
             year_released=meta.get("year_released", ""),
             venue_type=meta.get("venue_type", None),
