@@ -18,25 +18,10 @@ venues = [m.venue_type for m in musicals]
 # that it can be treated as int and displayed in the diagram
 four_digit_years = [m.year_released[:4] for m in musicals]
 
-def venue_pie(venues, filename="piechart.png"):
-    counted_venues = Counter(venues)
-    labels = list(counted_venues.keys())
-    sizes = list(counted_venues.values())
-
-    plt.figure()
-    plt.pie(sizes, labels = labels)
-    #plt.title("Distribution of venue types")
-
-    filepath = os.path.join("static", filename)
-
-    plt.savefig(filepath)
-    plt.close()
-
-    return filename
 
 def venue_pie_topn(venues, filename="piechart.png", top_n=6, other_label="Other"):
-    # aggregate small slices into a single “Other” category
-    # only displaying the top 6 venues and group others as "Other"
+    # aggregate small slices into a single “Other” category;
+    # only display the top 6 venues and group others as "Other"
 
 
     counted_venues = Counter(venues)

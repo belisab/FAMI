@@ -14,9 +14,9 @@
     <div id="search-info">
     <h1>Results for</h1>
     <p><b>query:</b> "{{ query }}"</p>
-    <p><b>with search method:</b> "{{ method }}"</p>
+    <p><b>with search method:</b> {{ method }}.</p>
     </div>
-
+    <p>Total hits: {{total_hits}} </p>
     <a id="link-back" href="{{ url_for('search') }}">Back to search</a>
   </header>
 
