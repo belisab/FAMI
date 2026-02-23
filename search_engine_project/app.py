@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 from data_loader import Musical, load_documents
 from visualisations import years_bar # type: ignore
 from visualisations import venue_pie_topn # type: ignore
@@ -35,7 +35,7 @@ semantic_load_thread = threading.Thread(target=load_semantic_engine)
 
 @app.route("/")
 def home():
-    return render_template("ui.html")
+    return redirect("/search")
 
 @app.route("/search")
 def search():
