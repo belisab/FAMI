@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 from data_loader import Musical, load_documents
 from visualisations import years_bar # type: ignore
-from visualisations import venue_pie # type: ignore
+#from visualisations import venue_pie # type: ignore
+from visualisations import venue_pie_topn # type: ignore
 
 import threading
 
@@ -75,7 +76,7 @@ def results():
     plot_file = years_bar(years) if years else None
 
     venues = [hit.venue_type for hit in hits if hit.venue_type]
-    pie_plot = venue_pie(venues) if venues else None
+    pie_plot = venue_pie_topn(venues) if venues else None
 
     hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 

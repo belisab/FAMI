@@ -34,6 +34,47 @@ def venue_pie(venues, filename="piechart.png"):
 
     return filename
 
+def venue_pie_topn(venues, filename="piechart.png", top_n=6, other_label="Other"):
+    # aggregate small slices into a single “Other” category
+    # only displaying the top 6 venues and group others as "Other"
+
+
+    counted_venues = Counter(venues)
+    total = sum(counted_venues.values())
+    if total == 0:
+        return None
+
+    # Sort categories by count descending
+    items = sorted(counted_venues.items(), key=lambda kv: kv[1], reverse=True)
+    top = items[:top_n]
+    rest = items[top_n:]
+
+    labels = [k for k, v in top]
+    sizes  = [v for k, v in top]
+
+    other_sum = sum(v for _, v in rest)
+    if other_sum > 0:
+        labels.append(other_label)
+        sizes.append(other_sum)
+
+    plt.figure()
+    wedges, texts, autotexts = plt.pie(
+        sizes,
+        labels=labels,
+        autopct=lambda pct: f"{pct:.1f}%" if pct >= 2 else "",  # show labels >= 2%
+        startangle=90,
+        pctdistance=0.75,
+        labeldistance=1.05
+    )
+    plt.axis('equal')
+
+    filepath = os.path.join("static", filename).replace("\\", "/")
+    plt.tight_layout()
+    plt.savefig(filepath, dpi=150, bbox_inches="tight")
+    plt.close()
+
+    return filename
+
 
 def get_decades(four_digit_years):
     # print(years[0], print(type(int(years[0]))))
