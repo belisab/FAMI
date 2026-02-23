@@ -14,6 +14,10 @@ body {
 
   /* point to image in same directory */
   /*from: https://images.pexels.com/photos/976862/pexels-photo-976862.jpeg */
+
+  /* Optional: fallback color while image loads */
+  background: linear-gradient(#305080, #503080);
+  
   background-image: url("stage_pexels.jpg");
 
   /* Make it cover the screen without distortion */
@@ -27,9 +31,6 @@ body {
 
   /* Optional: parallax-like effect (can be janky on some mobile browsers) */
   /* background-attachment: fixed; */
-
-  /* Optional: fallback color while image loads */
-  background-color: #000;
 
   color: white;
   background-attachment: fixed;
