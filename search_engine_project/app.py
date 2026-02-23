@@ -68,6 +68,8 @@ def results():
     else:
         hits = []
 
+
+
     # for visualisations
     # extract years
     years = [int(hit.year_released[:4]) for hit in hits if hit.year_released[:4]]
@@ -78,12 +80,23 @@ def results():
     pie_plot = venue_pie_topn(venues) if venues else None
 
     total_hits = len(hits)
-    hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
+    #hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
-    # return plots
+    # pagination
+    page = request.args.get("page", 1, type=int)
+    per_page = 20
+    total_pages = max(1, (total_hits + per_page - 1) // per_page)
+
+    # Pagination slice
+    start = (page - 1) * per_page
+    end = start + per_page
+    page_hits = hits[start:end]
+
     return render_template("results.html", query=query, method=method,
-                           results=hits, plot_file=plot_file,
-                           pie_plot=pie_plot, total_hits=total_hits)
+                           plot_file=plot_file,
+                           pie_plot=pie_plot, results=page_hits,
+                           total_hits=total_hits, page=page,
+                           total_pages=total_pages, per_page=per_page)
 
 @app.route("/results/<index>")
 def musical(index: str):
