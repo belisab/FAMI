@@ -15,6 +15,7 @@ Aaro:
 7.2.    2 hours     scrape wikipedia for musicals (7290441)
 9.2.    2 hours     implement musical-specific pages (0f408f1), support markdown rendering for synopsies (c5e2d8e)
 21.2.   2 hours     load semantic search engine in the background, saving 
+23.2.   2 hours     small fixes right before the demo :D
 
 Isabel:
 19.1.   2 hours     query loop for Boolean search, pair coding with Fiia

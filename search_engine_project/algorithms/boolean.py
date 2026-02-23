@@ -6,11 +6,16 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from scipy import sparse
 import typing
-from typing import Sequence
+from typing import Generic, Sequence, TypeVar
 import fnmatch
 from algorithms.doc import SearchableDocument
 import re
 
+# Map both word-based operators ("and", "or") and symbol-based operators ("&", "|")
+# so users can write either style in the query string.
+#
+# "__EMPTY__" is a special placeholder used when a wildcard expands to no terms:
+# it is rewritten to `empty_row` to keep the final eval() expression valid.
 OPERATORS = {
     "and": "&",
     "or":  "|",
@@ -21,11 +26,6 @@ OPERATORS = {
     ")":   ")",
     "__EMPTY__": "empty_row",
 }
-# Map both word-based operators ("and", "or") and symbol-based operators ("&", "|")
-# so users can write either style in the query string.
-#
-# "__EMPTY__" is a special placeholder used when a wildcard expands to no terms:
-# it is rewritten to `empty_row` to keep the final eval() expression valid.
 
 KGramIndex = dict[str, set[str]]
 
@@ -92,6 +92,12 @@ def expand_wildcards_in_query(query: str, kgram_index: KGramIndex, vocabulary: l
     return " ".join(new_tokens)
 
 def rewrite_query(query: str):
+    # Rewrite the tokenized Boolean query into a Python expression over document-term
+    # vectors. We MUST join tokens with spaces (not with "&"), because the query already
+    # contains explicit operators like "&" and "|" after normalization.
+    #
+    # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
+    # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
     return " ".join(
         OPERATORS.get(
             t,
@@ -99,20 +105,16 @@ def rewrite_query(query: str):
         )
         for t in query.split()
     )
-        # Rewrite the tokenized Boolean query into a Python expression over document-term
-        # vectors. We MUST join tokens with spaces (not with "&"), because the query already
-        # contains explicit operators like "&" and "|" after normalization.
-        #
-        # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
-        # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
 
-class BooleanSearchEngine:
-    documents: Sequence[SearchableDocument]
+T = TypeVar('T', bound=SearchableDocument)
+
+class BooleanSearchEngine(Generic[T]):
+    documents: Sequence[T]
     td_matrix: typing.Any
     t2i: typing.Any
     kgram_index: KGramIndex | None
 
-    def __init__(self, documents: Sequence[SearchableDocument], support_wildcards: bool = True) -> None:
+    def __init__(self, documents: Sequence[T], support_wildcards: bool = True) -> None:
         self.documents = documents
         cv = CountVectorizer(lowercase=True, binary=True)
 
@@ -127,7 +129,7 @@ class BooleanSearchEngine:
         self.t2i = cv.vocabulary_ # type: ignore
         self.kgram_index = build_kgram_index(self.t2i.keys()) if support_wildcards else None
 
-    def search(self, query: str) -> list[SearchableDocument]:
+    def search(self, query: str) -> list[T]:
 
         # Separate parentheses and operators so split() can tokenize correctly
         query = query.replace("(", " ( ").replace(")", " ) ")
