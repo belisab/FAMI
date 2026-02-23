@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
-from data_loader import load_documents
-from visualisations import years_bar
-from visualisations import venue_pie
+from data_loader import Musical, load_documents
+from visualisations import years_bar # type: ignore
+from visualisations import venue_pie # type: ignore
 
 import threading
 
@@ -13,7 +13,7 @@ from algorithms.tfidf import TfIdfSearchEngine
 
 documents = load_documents()
 boolean_engine = BooleanSearchEngine(documents)
-semantic_engine: SemanticSearchEngine | None = None
+semantic_engine: SemanticSearchEngine[Musical] | None = None
 tf_idf_engine = TfIdfSearchEngine(documents)
 
 # Thread safety my beloved :3
@@ -64,7 +64,7 @@ def results():
                 return "Semantic search engine has not yet been loaded", 500
             hits = semantic_engine.search(query)
     elif method == "tf-idf":
-        hits = tf_idf_engine.search_tfidf(query)
+        hits = tf_idf_engine.search(query)
     else:
         hits = []
 
