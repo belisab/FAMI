@@ -1,0 +1,9 @@
+<nav>
+<a href="{{ url_for('results') }}" id="nav">Back</a>
+<script defer>
+    document.querySelector("#nav").addEventListener("click", e => {
+    e.preventDefault();
+    window.history.back();
+    });
+</script>
+</nav>

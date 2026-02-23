@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='musical.css') }}">
 </head>
 <body>
+  {% include "nav.html" %}
+
   <header>
     <h1>{{ musical["title"] }}</h1>
     <a href="{{ musical.wikipedia_url }}">View on Wikipedia</a>
