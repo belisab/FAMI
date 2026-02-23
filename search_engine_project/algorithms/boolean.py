@@ -11,6 +11,11 @@ import fnmatch
 from algorithms.doc import SearchableDocument
 import re
 
+# Map both word-based operators ("and", "or") and symbol-based operators ("&", "|")
+# so users can write either style in the query string.
+#
+# "__EMPTY__" is a special placeholder used when a wildcard expands to no terms:
+# it is rewritten to `empty_row` to keep the final eval() expression valid.
 OPERATORS = {
     "and": "&",
     "or":  "|",
@@ -21,11 +26,6 @@ OPERATORS = {
     ")":   ")",
     "__EMPTY__": "empty_row",
 }
-# Map both word-based operators ("and", "or") and symbol-based operators ("&", "|")
-# so users can write either style in the query string.
-#
-# "__EMPTY__" is a special placeholder used when a wildcard expands to no terms:
-# it is rewritten to `empty_row` to keep the final eval() expression valid.
 
 KGramIndex = dict[str, set[str]]
 
@@ -92,6 +92,12 @@ def expand_wildcards_in_query(query: str, kgram_index: KGramIndex, vocabulary: l
     return " ".join(new_tokens)
 
 def rewrite_query(query: str):
+    # Rewrite the tokenized Boolean query into a Python expression over document-term
+    # vectors. We MUST join tokens with spaces (not with "&"), because the query already
+    # contains explicit operators like "&" and "|" after normalization.
+    #
+    # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
+    # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
     return " ".join(
         OPERATORS.get(
             t,
@@ -99,12 +105,6 @@ def rewrite_query(query: str):
         )
         for t in query.split()
     )
-        # Rewrite the tokenized Boolean query into a Python expression over document-term
-        # vectors. We MUST join tokens with spaces (not with "&"), because the query already
-        # contains explicit operators like "&" and "|" after normalization.
-        #
-        # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
-        # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
 
 T = TypeVar('T', bound=SearchableDocument)
 
