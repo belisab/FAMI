@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from scipy import sparse
 import typing
-from typing import Sequence
+from typing import Generic, Sequence, TypeVar
 import fnmatch
 from algorithms.doc import SearchableDocument
 import re
@@ -106,13 +106,15 @@ def rewrite_query(query: str):
         # Each term token becomes a vector: td_matrix[t2i[term]] (or empty_row if unknown).
         # Operator tokens are mapped via OPERATORS (e.g., "and" -> "&", "or" -> "|").
 
-class BooleanSearchEngine:
-    documents: Sequence[SearchableDocument]
+T = TypeVar('T', bound=SearchableDocument)
+
+class BooleanSearchEngine(Generic[T]):
+    documents: Sequence[T]
     td_matrix: typing.Any
     t2i: typing.Any
     kgram_index: KGramIndex | None
 
-    def __init__(self, documents: Sequence[SearchableDocument], support_wildcards: bool = True) -> None:
+    def __init__(self, documents: Sequence[T], support_wildcards: bool = True) -> None:
         self.documents = documents
         cv = CountVectorizer(lowercase=True, binary=True)
 
@@ -127,7 +129,7 @@ class BooleanSearchEngine:
         self.t2i = cv.vocabulary_ # type: ignore
         self.kgram_index = build_kgram_index(self.t2i.keys()) if support_wildcards else None
 
-    def search(self, query: str) -> list[SearchableDocument]:
+    def search(self, query: str) -> list[T]:
 
         # Separate parentheses and operators so split() can tokenize correctly
         query = query.replace("(", " ( ").replace(")", " ) ")

@@ -4,13 +4,15 @@ from gensim.models.keyedvectors import KeyedVectors # type: ignore
 from gensim.models import Word2Vec # type: ignore
 import gensim.downloader as gsapi # type: ignore
 import typing
-from typing import Sequence
+from typing import Generic, Sequence, TypeVar
 from algorithms.doc import SearchableDocument
 
 # Based on https://github.com/Helsinki-NLP/neural-search-tutorials/blob/main/average_word_vectors.ipynb
 
-class SemanticSearchEngine:
-    documents: Sequence[SearchableDocument]
+T = TypeVar('T', bound=SearchableDocument)
+
+class SemanticSearchEngine(Generic[T]):
+    documents: Sequence[T]
     doc_vectors: KeyedVectors
     ft: typing.Any
 
@@ -23,7 +25,7 @@ class SemanticSearchEngine:
     def install_embeddings() -> typing.Any:
         return gsapi.load("glove-wiki-gigaword-300") # type: ignore
 
-    def __init__(self, ft: typing.Any, documents: Sequence[SearchableDocument]) -> None:
+    def __init__(self, ft: typing.Any, documents: Sequence[T]) -> None:
         self.ft = ft
         self.documents = documents
         self.doc_vectors = KeyedVectors(self.ft.vector_size, count=len(documents))
@@ -31,7 +33,7 @@ class SemanticSearchEngine:
             dv = self.into_wordvec(doc.get_searchable_data())
             self.doc_vectors.add_vector(i, dv) # type: ignore
 
-    def search(self, query: str, topn: int = 5) -> list[SearchableDocument]:
+    def search(self, query: str, topn: int = 5) -> list[T]:
         q = self.into_wordvec(query)
         most_sim = self.doc_vectors.most_similar([q], topn=topn) # type: ignore
 
