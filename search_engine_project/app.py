@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 from data_loader import Musical, load_documents
 from visualisations import years_bar # type: ignore
-from visualisations import venue_pie # type: ignore
+from visualisations import venue_pie_topn # type: ignore
 
 import threading
 
@@ -35,7 +35,7 @@ semantic_load_thread = threading.Thread(target=load_semantic_engine)
 
 @app.route("/")
 def home():
-    return render_template("ui.html")
+    return redirect("/search")
 
 @app.route("/search")
 def search():
@@ -68,6 +68,8 @@ def results():
     else:
         hits = []
 
+
+
     # for visualisations
     # extract years
     years = [int(hit.year_released[:4]) for hit in hits if hit.year_released[:4]]
@@ -75,14 +77,26 @@ def results():
     plot_file = years_bar(years) if years else None
 
     venues = [hit.venue_type for hit in hits if hit.venue_type]
-    pie_plot = venue_pie(venues) if venues else None
+    pie_plot = venue_pie_topn(venues) if venues else None
 
-    hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
+    total_hits = len(hits)
+    #hits = hits[:MAX_RESULTS]  # Limit results to MAX_RESULTS
 
-    # return plots
+    # pagination
+    page = request.args.get("page", 1, type=int)
+    per_page = 20
+    total_pages = max(1, (total_hits + per_page - 1) // per_page)
+
+    # Pagination slice
+    start = (page - 1) * per_page
+    end = start + per_page
+    page_hits = hits[start:end]
+
     return render_template("results.html", query=query, method=method,
-                           results=hits, plot_file=plot_file,
-                           pie_plot=pie_plot)
+                           plot_file=plot_file,
+                           pie_plot=pie_plot, results=page_hits,
+                           total_hits=total_hits, page=page,
+                           total_pages=total_pages, per_page=per_page)
 
 @app.route("/results/<index>")
 def musical(index: str):

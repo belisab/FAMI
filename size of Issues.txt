@@ -1,0 +1,32 @@
+#1 Add "Hello, everyone!" -> S
+#2 Update test.py file -> XXS
+#3 add another print!-> XXS
+#4 issue #4 -> XXS
+#5 Download the Helsinki news site -> M
+#6 Parse news headlines -> M
+#7 Preparing the data -> M
+#8 Implement Boolean search and user input queries -> L
+#9 Unknown terms -> M
+#10 Indexing alpha-numerical characters -> Null
+#11 tf-idf search engine -> L 
+#12
+#13 Prediction based word embedding search engine -> L
+#14 Wildcard searches implementation -> L
+#15 Data collection (scraping / APIs) for search engine -> L
+#16 creation of the web app's HTML pages -> S
+#17 creating the CSS for the web app -> S
+#19 fix data_loader and boolean_search -> L
+#20 Create visualisations -> L
+#21 Implement theme extraction and tag generation for search results -> L
+#22 Modify css to display results as boxes -> S
+#23 Draft documentation -> M
+#24 Beautify visualisations -> M
+#25 Create global.css and .css files for individual pages -> L
+#26 fix year error in visualisations.py -> XS
+#27 Fix year error -> S
+#28 Fix operators in Boolean search -> 
+#29 add bar + pie chart to search page that visualises all data !
+#30 fix visualisations
+#31 Display number of results after search
+#32 Improve wildcard search to support internal * patterns and simplify matching -> M
+#33 Update README!

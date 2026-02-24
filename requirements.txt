@@ -10,4 +10,7 @@ gensim==4.4
 html5lib==1.1
 flask==3.1
 markdown==3.10
+more-itertools==10.8
 matplotlib
+algorithms
+more_itertools

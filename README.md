@@ -1,9 +1,10 @@
-# FAMI (wip name)
+# Epic (and also awesome) Musical Searching Application
 
-Awesome! Cool! NLP project! Yay!
+> HIYA! With this application, u cans search for musicals :3c
 
-Website for task 3: https://www.helsinki.fi/en/news/news-and-press-releases
+To run the app, you need to have at least Python 3.10 installed.
 
+<<<<<<< HEAD
 ## How to make changes:
 
 1. Every time you start working on the project, start off by **pulling the changes** from the cloud repository. You can do this by using your code editor's Git controls (there should be a button labeled "Pull" somewhere, possibly under a "VCS" or "Commits" tab), or manually by running `git pull` in the terminal.
@@ -34,3 +35,9 @@ Using venv works like this:
 ## Workflow
 
 We worked together and did a lot of pair coding, so the commits don't correctly represent everyone's efforts.
+=======
+Running on your own computer:
+1. Install dependencies using `pip3 install -r requirements.txt` (it is recommended to use Venv)
+2. Go to the app directory with `cd search_engine_project`
+3. Run the app using `python3 -m flask run`
+>>>>>>> faab141e7af662f412815f14ad72e3c1cfe8080d
