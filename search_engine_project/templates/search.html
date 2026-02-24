@@ -15,27 +15,29 @@
 </header>    
 
 <main>
-    <div class="search-methods">
-    <form id="search-box" action="{{ url_for('results') }}" method="get">
-    <label for="query">
-     What are you interested in?
-    </label><br>
-    <input type="text" id="query" name="query" placeholder="Start typing.." required>
-    <br><br>
+    <div class="search-container">
+        <div class="form-wrapper">
+            <form id="search-box" action="{{ url_for('results') }}" method="get">
+                <label for="query">What are you interested in? </label>
+                <input type="text" id="query" name="query" placeholder="Start typing..." required>
+                
+            
 
-    <label for="search">
-        Choose search method:
-    </label><br>
-    <select id="search" name="method">
-        <option value="boolean">Boolean search</option>
-        <option value="tf-idf">TF-IDF search</option>
-        {% if semantic_engine_loaded %}
-            <option value="semantic">Semantic search</option>
-        {% endif %}
-    </select>
-    <br><br>
+                <label for="search-method">Choose search method:</label>
+                <select id="search-method" name="method">
+                    <option value="boolean">Boolean search</option>
+                    <option value="tf-idf">TF-IDF search</option>
+                    {% if semantic_engine_loaded %}
+                        <option value="semantic">Semantic search</option>
+                     {% endif %}
+                </select>
+                
+                <input type="submit" value="Go!" id="submit">
+            </form>
+        </div>
+   
 
-    <button type="submit">Go!</button>
+    
 
     {% if not semantic_engine_loaded %}
         <div id="semantic-search-loading">

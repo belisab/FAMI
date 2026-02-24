@@ -30,3 +30,7 @@ Using venv works like this:
 2. On Windows, run `./.venv/Scripts/activate`; on MacOS or Linux, run `source .venv/bin/activate`
 3. Install packages with `pip3 install -r requirements.txt`
 4. You're good to go! If you install any new packages, add them to `requirements.txt`
+
+## Workflow
+
+We worked together and did a lot of pair coding, so the commits don't correctly represent everyone's efforts.

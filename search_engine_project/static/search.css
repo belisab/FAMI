@@ -1,7 +1,21 @@
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
 .search-methods {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 24px;
   margin: 30px auto;
   flex-wrap: wrap;   /* allows stacking on narrow screens */
@@ -19,12 +33,95 @@ p {
   max-width: 500px;
 }
 
-#search-box {
-    margin: 30px;
-    padding: 15px;
-    border-radius: 12px;
-    max-width: 500px;
+
+a {
+  color: #2A679F;
 }
+/*========*/
+
+.form-wrapper {
+  background: linear-gradient(to bottom, #f6f6f6, #eae8e8);
+  border: 1px solid #bababa;
+  border-radius: 10px;
+  box-shadow: 
+    0 3px 3px rgba(0, 0, 0, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+  margin: 60px auto;
+  padding: 8px;
+  width: 450px;
+}
+
+.form-wrapper form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.form-wrapper #query{
+  flex: 1;
+  border: 1px solid #CCC;
+  box-shadow: inset 0 1px 1px rgba(0, 0 ,0, .1);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 6px;
+  color: #999;
+  float: left;
+  font-family: "Lucida Sans", Trebuchet MS, Tahoma, sans-serif;
+  height: 14px;
+  padding: 12px;
+  width: 300px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-wrapper #query:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 0 2px rgba(8, 34, 140, 0.15);
+  outline: 0;
+}
+
+.form-wrapper #query::placeholder {
+  color: #999;
+  font-weight: normal;
+}
+
+.form-wrapper #search-method {
+  border: 1px solid #CCC;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: "Lucida Sans", Trebuchet MS, Tahoma, sans-serif;
+  color: #555;
+  width: 100%;
+  cursor: pointer;
+
+}
+
+.form-wrapper #submit {
+  background: linear-gradient(to bottom, #130984, #043184);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.form-wrapper #submit:hover {
+  background: linear-gradient(to bottom, #043184, #130984);
+}
+
+.form-wrapper #submit:active {
+  transform: scale(0.97);
+}
+
+.form-wrapper #submit::-moz-focus-inner {
+  border: 0;
+}
+
+
 
 .hide {
   display: none;
