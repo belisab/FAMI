@@ -42,4 +42,4 @@ Manuel:
 -       1.5 hours   creation of the flask app, data_loader, and HTML refinement
 14.2.   2.5 hours   Implement theme extraction and tag generation for search results
 22.2.   2   hours   fixed the boolean search 
-
+27.2.   3   hours   fixed the boolean search (again) because () and wildcard search did not work
