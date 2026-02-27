@@ -30,52 +30,70 @@ def kgrams_from_wildcard(pattern: str, k: int = 3) -> list[str]:
     parts = pattern.split("*")
     kgrams: list[str] = []
 
-    # start
-    if parts[0] != "":
-        kgrams.append("$" + parts[0][:k-1])
+    starts_with_star = pattern.startswith("*")
+    ends_with_star = pattern.endswith("*")
 
-    # end
-    if parts[-1] != "":
-        kgrams.append(parts[-1][-k+1:] + "$")
+    for i, part in enumerate(parts):
+        if not part:
+            continue
+
+        segment = part
+        if i == 0 and not starts_with_star:
+            segment = "$" + segment
+        if i == len(parts) - 1 and not ends_with_star:
+            segment = segment + "$"
+
+        if len(segment) < k:
+            continue
+
+        for j in range(len(segment) - k + 1):
+            kgrams.append(segment[j:j+k])
 
     return kgrams
 
 # Expand wildcard pattern using k-gram index
-def expand_wildcard(pattern: str, kgram_index: KGramIndex, vocabulary: list[str]) -> list[str]:
+def expand_wildcard(pattern: str, kgram_index: KGramIndex, vocabulary) -> list[str]:
+    vocab_list = list(vocabulary)
+
     kgrams = kgrams_from_wildcard(pattern)
     if not kgrams:
-        return []
+        return [t for t in vocab_list if fnmatch.fnmatch(t, pattern)]
 
-    candidates = None
+    candidates: set[str] | None = None
+
     for kg in kgrams:
-        if kg not in kgram_index:
-            return []
-        if candidates is None:
-            candidates = kgram_index[kg].copy()
-        else:
-            candidates &= kgram_index[kg]
-    
-    assert candidates is not None
+        bucket = kgram_index.get(kg)
+        if not bucket:
+            return [t for t in vocab_list if fnmatch.fnmatch(t, pattern)]
 
-    # post-filtering
+        candidates = bucket.copy() if candidates is None else (candidates & bucket)
+
+    if not candidates:
+        return [t for t in vocab_list if fnmatch.fnmatch(t, pattern)]
+
     return [t for t in candidates if fnmatch.fnmatch(t, pattern)]
 
 # Expand wildcards in the entire query
-def expand_wildcards_in_query(query: str, kgram_index: KGramIndex, vocabulary: list[str]) -> str:
-    tokens = query.split()
-    new_tokens: list[str] = []
+def expand_wildcards_in_tokens(tokens: 'list[Token]', kgram_index: KGramIndex, vocabulary) -> 'list[Token]':
+    out: list[Token] = []
 
-    for t in tokens:
-        if "*" in t or "?" in t:
-            expanded = expand_wildcard(t, kgram_index, vocabulary)
+    for tk in tokens:
+        if (not tk.kw) and ("*" in tk.value):
+            expanded = expand_wildcard(tk.value, kgram_index, vocabulary)
+
             if expanded:
-                new_tokens.append("(" + " or ".join(expanded) + ")")
+                out.append(Token(True, "("))
+                for i, term in enumerate(expanded):
+                    if i > 0:
+                        out.append(Token(True, "|"))
+                    out.append(Token(False, term))
+                out.append(Token(True, ")"))
             else:
-                new_tokens.append("__EMPTY__")  # no match
+                out.append(Token(False, "__nomatch__"))
         else:
-            new_tokens.append(t)
+            out.append(tk)
 
-    return " ".join(new_tokens)
+    return out
 
 class MatrixData(TypedDict):
     td_matrix: Any
@@ -278,8 +296,20 @@ def parse_stmt(tokens: 'peekable[Token]') -> Stmt | None:
     stmt = parse_binop_stmt(tokens)
     if not stmt:
         return None
-    while more := parse_binop_stmt(tokens):
+
+    while True:
+        tk = tokens.peek(None)
+        if tk is None:
+            break
+        if tk.kw and tk.value in {")", "|", "&"}:
+            break
+
+        more = parse_binop_stmt(tokens)
+        if not more:
+            break
+
         stmt = BinOpStmt(stmt, True, more)
+
     return stmt
 
 T = TypeVar('T', bound=SearchableDocument)
@@ -310,18 +340,21 @@ class BooleanSearchEngine(Generic[T]):
 
     def search(self, query: str) -> list[T]:
         query = query.lower().strip()
-        query = expand_wildcards_in_query(query, self.kgram_index, self.data["t2i"].keys()) if self.kgram_index else query
 
-        # Tokenize query
         tokens = tokenize_query(query)
+
+        if self.kgram_index:
+            tokens = expand_wildcards_in_tokens(
+                tokens,
+                self.kgram_index,
+                self.data["t2i"].keys()
+            )
 
         ast = parse_stmt(peekable(tokens))
         if ast is None:
             return []
-        
+
         hits_matrix = ast.eval(self.data)
-        
-        # Finding the matching document
         hits_list = list(hits_matrix.nonzero()[1])
 
         return [self.documents[doc_idx] for doc_idx in hits_list]
