@@ -1,25 +1,29 @@
 #search-info {
-  display: flex;
-  align-items: center;
-  margin: 30px auto;
-  flex-wrap: wrap;   /* allows stacking on narrow screens */
-  /*background: rgba(255, 255, 255, 0.35);*/
-
-
-
-}
-
-#search-info h1,
-#search-info p {
-  color: white;
-  font-size: 200%;
-  margin: 0px;
- /*background: rgba(255, 255, 255, 0.7);  /* white with 40% opacity */
-  padding: 3px;
-  border-radius: 12px;
+  margin: 20px auto 30px auto;
   max-width: 500px;
+  padding: 15px 20px;
+
+  /* Optional subtle background for readability */
+  background: rgba(255, 255, 255);
+  border-radius: 12px;
 }
 
+#search-info p {
+  color: black;
+  font-size: 1.2rem;
+  margin: 6px 0 10px;
+  line-height: 1.4;
+}
+
+#search-info p b {
+  color: lightblue; /* optional: makes labels stand out */
+}
+
+#search-info h1 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
 
 
 /* Put bar and pie chart side-by-side */

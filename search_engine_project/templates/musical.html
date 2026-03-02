@@ -16,9 +16,10 @@
   </header>
 
   <main>
-    <p>{{ musical["description"] }}</p>
+    <p> DESCRIPTION <br> <br> {{ musical["description"] }}</p>
 
     <div class="synopsis">
+      SYNOPSIS <br> <br>
       {{ musical.render_synopsis()|safe }}
     </div>
   </main>

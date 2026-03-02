@@ -10,17 +10,18 @@
 <body>
   {% include "nav.html" %}
 
-  <header>
-    <div id="search-info">
-    <h1>Results for</h1>
-    <p><b>query:</b> "{{ query }}"</p>
-    <p><b>with search method:</b> {{ method }}.</p>
-    </div>
-    <p>Total hits: {{total_hits}} </p>
-    <a id="link-back" href="{{ url_for('search') }}">Back to search</a>
-  </header>
+<header>
+  <h1>Results</h1>
+
+</header>
+
 
   <main>
+  <div id="search-info">
+    <p><b>Query:</b> "{{ query }}"</p>
+    <p><b>Search method:</b> {{ method }}</p>
+    <p><b>Total hits:</b> {{ total_hits }}</p>
+  </div>
 
     <div class="charts-row">
     {% if plot_file %}

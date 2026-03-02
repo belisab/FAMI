@@ -34,6 +34,7 @@ Isabel:
 20.2.   4h          created and modified .css files and fixed some bugs in
                     app.py
 23.2.   1.5h        fixed diagrams and added pagination to results page
+2.3.    1h          beautification of diagrams and improvements to css
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages

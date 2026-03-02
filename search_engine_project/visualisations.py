@@ -42,6 +42,16 @@ def venue_pie_topn(venues, filename="piechart.png", top_n=6, other_label="Other"
         labels.append(other_label)
         sizes.append(other_sum)
 
+    colors = [
+        "#A7C7E7",  # light powder blue
+        "#B5EAD7",  # mint green
+        "#FFDAC1",  # peach pink
+        "#FFB7B2",  # rose pink
+        "#C7CEEA",  # lilac-blue
+        "#D5F4E6",  # pale seafoam
+        "#A3E7FF"  # pastel turquoise blue
+    ]
+
     plt.figure()
     wedges, texts, autotexts = plt.pie(
         sizes,
@@ -49,7 +59,9 @@ def venue_pie_topn(venues, filename="piechart.png", top_n=6, other_label="Other"
         autopct=lambda pct: f"{pct:.1f}%" if pct >= 2 else "",  # show labels >= 2%
         startangle=90,
         pctdistance=0.75,
-        labeldistance=1.05
+        labeldistance=1.05,
+        colors=colors[:len(sizes)]
+
     )
     plt.axis('equal')
 
@@ -87,13 +99,22 @@ def years_bar(years, filename="barplot.png"):
     
     filepath = os.path.join("static", filename).replace("\\", "/")
     #print(filepath)
+    pastel_playbill_bars = [
+        "#9FC3EB",  # slightly deeper powder blue
+        "#AEE9D1",  # mint green with more saturation
+        "#FFCDB2",  # warm peach pink
+        "#FFB4A2",  # soft rose pink
+        "#BFC8F5",  # pastel lilac-blue with clearer tone
+        "#CFF7E3",  # pale seafoam green
+        "#A3E7FF"  # pastel turquoise blue
+    ]
+    colors = pastel_playbill_bars
+    plt.bar(decade_labels, y, color=colors[:len(x)], edgecolor="#666666")
 
-    #plt.figure(figsize=(8,4))
-    plt.bar(decade_labels, y)
     #print(len(years))
 
     #plt.title("Musicals according to their release year")
-    plt.xlabel("Year released")
+    plt.xlabel("Time period")
     plt.ylabel("Number of musicals")
 
     #we do not need decimals so show integers only on y-axis
