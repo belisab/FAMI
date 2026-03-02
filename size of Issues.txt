@@ -24,8 +24,7 @@
 #25 Create global.css and .css files for individual pages -> L
 #26 fix year error in visualisations.py -> XS
 #27 Fix new year error -> S
-#28 Fix operators in Boolean search -> 
-#29 add bar + pie chart to search page that visualises all data !
+#28 Fix operators in Boolean search ->
 #30 fix visualisations -> M
 #31 Display number of results after search -> XS
 #32 Improve wildcard search to support internal * patterns and simplify matching -> L
