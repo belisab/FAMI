@@ -1,12 +1,3 @@
-"""
-theme_extraction.py
-Extracts thematic tags (keyphrases) for each musical using PKE MultipartiteRank,
-and saves them to: search_engine_project/static/musical_tags.json
-
-Run from: FAMI/search_engine_project
-    python theme_extraction.py
-"""
-
 import json
 import os
 import time
@@ -14,13 +5,13 @@ import re
 import pke
 import spacy
 
-# Config
+
 TOP_N = 5
 MAX_CHARS = 8000  # limit text length to avoid very slow docs
-FIELDS = ["description", "synopsis"]  # keep it light; add "songs" or "cast" if you want (slower)
+FIELDS = ["description", "synopsis"]  # to keep it light
 SPACY_MODEL_NAME = "en_core_web_sm"
 
-# Paths
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCRAPING_DIR = os.path.abspath(
@@ -41,7 +32,6 @@ def clean_text(s: str) -> str:
     s = re.sub(r"\s+", " ", s).strip() # collapse whitespace
     return s
 
-# Build a single text blob from selected fields, cleaned and truncated.
 def build_text(musical: dict) -> str:
     """Concatenate selected fields and truncate."""
     parts = []
@@ -52,22 +42,13 @@ def build_text(musical: dict) -> str:
     text = clean_text(text)
     return text[:MAX_CHARS]
 
-# Extract keywords using PKE MultipartiteRank. Returns list of phrases (no scores).
 def extract_keywords(text: str, spacy_nlp, top_n: int = TOP_N):
     """Run PKE MultipartiteRank and return list of phrases (no scores)."""
     extractor = pke.unsupervised.MultipartiteRank()
-
-    # IMPORTANT: pass the *nlp object*, not a string
     extractor.load_document(input=text, language="en", spacy_model=spacy_nlp)
-
-    # Candidate selection: nouns/proper nouns/adjectives are good for "tags"
     extractor.candidate_selection(pos={"NOUN", "PROPN", "ADJ"})
-
-    # Candidate weighting
     extractor.candidate_weighting(alpha=1.1, threshold=0.75, method="average")
-
-    # Get best phrases
-    keyphrases = extractor.get_n_best(n=top_n)  # [(phrase, score), ...]
+    keyphrases = extractor.get_n_best(n=top_n)  
     return [phrase for phrase, _score in keyphrases]
 
 
@@ -78,8 +59,6 @@ def main():
     if not os.path.exists(DATA_PATH):
         raise FileNotFoundError(f"Input JSON not found: {DATA_PATH}")
 
-
-    # Load spaCy once (huge speedup + fixes your tokenizer error)
     try:
         nlp = spacy.load(SPACY_MODEL_NAME)
     except OSError:
@@ -96,7 +75,7 @@ def main():
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         pagedata = json.load(f)
 
-    # Resume support: if output exists, keep what you've already done
+    # if output exists, keep what you've already done
     if os.path.exists(OUT_PATH):
         try:
             with open(OUT_PATH, "r", encoding="utf-8") as f:
@@ -147,13 +126,12 @@ def main():
 
             processed_now += 1
 
-            # checkpoint every 10 items (change to 1 if you want max safety)
+            # checkpoint every 10 items 
             if processed_now % 10 == 0:
                 with open(OUT_PATH, "w", encoding="utf-8") as f:
                     json.dump(tags_by_title, f, ensure_ascii=False, indent=2)
                 print("  (checkpoint saved)")
 
-        # final save
         with open(OUT_PATH, "w", encoding="utf-8") as f:
             json.dump(tags_by_title, f, ensure_ascii=False, indent=2)
 
