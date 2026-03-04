@@ -51,7 +51,7 @@ We worked together and did a lot of pair coding, so the commits don't correctly 
 
 If you run into any issues, send a message to the WhatsApp group :D
 
-## :hammer: How to use Venv
+### :hammer: How to use Venv
 
 Venv (Virtual Environment) is a way to make dealing with Python packages a little less terrible. It should make it so that everyone has the same package versions installed, and we get less "it works on my machine" errors.
 
