@@ -19,7 +19,7 @@ The app lives in `search_engine_project`. Install dependencies and run the Flask
 0. (Set up venv by running `python3 -m venv .venv`, then on Windows run `./venv/Scripts/activate.bat` or on other platforms `source .venv/bin/activate`)
 1. Run `pip3 install -r requirements.txt`
 2. Run `cd search_engine_project`
-3. RUn `python3 -m flask run`
+3. Run `python3 -m flask run`
 
 ### :baby: For everyone else:
 
