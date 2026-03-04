@@ -35,6 +35,8 @@ After you have the dependencies installed, navigate to the project directory wit
 
 We worked together and did a lot of pair coding, so the commits don't correctly represent everyone's efforts.
 
+The app's database comes from Wikipedia, specifically these two articles: [List of Musicals: A to L](https://en.wikipedia.org/wiki/List_of_musicals:_A_to_L) and [List of Musicals: M to Z](https://en.wikipedia.org/wiki/List_of_musicals:_M_to_Z). We scraped these articles to get a list of musicals, and then the individual pages on the musicals themselves linked on the list articles to get more detailed information about them. If you run the app, the raw databases can be accessed at http://localhost:5000/static/musicals.json and http://localhost:5000/static/musicals-data.json. Tags for the musicals were generated using `pke`.
+
 ## :computer: Instructions for developing the app:
 
 1. Every time you start working on the project, start off by **pulling the changes** from the cloud repository. You can do this by using your code editor's Git controls (there should be a button labeled "Pull" somewhere, possibly under a "VCS" or "Commits" tab), or manually by running `git pull` in the terminal.

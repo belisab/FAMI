@@ -28,4 +28,4 @@
 #30 fix visualisations -> M
 #31 Display number of results after search -> XS
 #32 Improve wildcard search to support internal * patterns and simplify matching -> L
-#33 Update README!
+#33 Update README! -> S
