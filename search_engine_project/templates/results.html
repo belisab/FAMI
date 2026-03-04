@@ -23,6 +23,12 @@
     <p><b>Total hits:</b> {{ total_hits }}</p>
   </div>
 
+    {% if error %}
+      <div class="search-result-error-container">
+        <p>{{ error }}</p>
+      </div>
+    {% endif %}
+
     <div class="charts-row">
     {% if plot_file %}
       <figure id="release-year-chart">

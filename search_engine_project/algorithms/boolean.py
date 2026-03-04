@@ -15,6 +15,11 @@ from more_itertools import peekable
 
 KGramIndex = dict[str, set[str]]
 
+# Maximum amount of items a wildcard like `cat*` can expand to
+# If we don't have this, then searching `c*` will crash the server because of 
+# the result expression being too complex
+MAX_WILDCARD_EXPANSIONS = 100
+
 # k-gram index functions
 def build_kgram_index(vocabulary: list[str], k: int = 3) -> KGramIndex:
     index: KGramIndex = {}
@@ -52,7 +57,7 @@ def kgrams_from_wildcard(pattern: str, k: int = 3) -> list[str]:
     return kgrams
 
 # Expand wildcard pattern using k-gram index
-def expand_wildcard(pattern: str, kgram_index: KGramIndex, vocabulary) -> list[str]:
+def expand_wildcard(pattern: str, kgram_index: KGramIndex, vocabulary: Any) -> list[str]:
     vocab_list = list(vocabulary)
 
     kgrams = kgrams_from_wildcard(pattern)
@@ -74,16 +79,22 @@ def expand_wildcard(pattern: str, kgram_index: KGramIndex, vocabulary) -> list[s
     return [t for t in candidates if fnmatch.fnmatch(t, pattern)]
 
 # Expand wildcards in the entire query
-def expand_wildcards_in_tokens(tokens: 'list[Token]', kgram_index: KGramIndex, vocabulary) -> 'list[Token]':
+def expand_wildcards_in_tokens(tokens: 'list[Token]', kgram_index: KGramIndex, vocabulary: Any) -> 'tuple[list[Token], bool]':
     out: list[Token] = []
+
+    had_to_limit_expansions = False
 
     for tk in tokens:
         if (not tk.kw) and ("*" in tk.value):
             expanded = expand_wildcard(tk.value, kgram_index, vocabulary)
 
             if expanded:
+                if len(expanded) > MAX_WILDCARD_EXPANSIONS:
+                    had_to_limit_expansions = True
                 out.append(Token(True, "("))
                 for i, term in enumerate(expanded):
+                    if i > MAX_WILDCARD_EXPANSIONS:
+                        break
                     if i > 0:
                         out.append(Token(True, "|"))
                     out.append(Token(False, term))
@@ -93,7 +104,7 @@ def expand_wildcards_in_tokens(tokens: 'list[Token]', kgram_index: KGramIndex, v
         else:
             out.append(tk)
 
-    return out
+    return out, had_to_limit_expansions
 
 class MatrixData(TypedDict):
     td_matrix: Any
@@ -338,23 +349,27 @@ class BooleanSearchEngine(Generic[T]):
         )
         self.kgram_index = build_kgram_index(self.data["t2i"].keys()) if support_wildcards else None
 
-    def search(self, query: str) -> list[T]:
+    def search(self, query: str) -> tuple[list[T], str | None]:
         query = query.lower().strip()
 
         tokens = tokenize_query(query)
+        error = None
 
         if self.kgram_index:
-            tokens = expand_wildcards_in_tokens(
+            tokens, had_to_limit_expansions = expand_wildcards_in_tokens(
                 tokens,
                 self.kgram_index,
                 self.data["t2i"].keys()
             )
+            if had_to_limit_expansions:
+                error = "Some wildcards expanded into too many tokens and had to be \
+                    limited; please simplify the wildcards used in your search query."
 
         ast = parse_stmt(peekable(tokens))
         if ast is None:
-            return []
+            return [], None
 
         hits_matrix = ast.eval(self.data)
         hits_list = list(hits_matrix.nonzero()[1])
 
-        return [self.documents[doc_idx] for doc_idx in hits_list]
+        return [self.documents[doc_idx] for doc_idx in hits_list], error

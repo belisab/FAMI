@@ -54,10 +54,10 @@ def results():
     query = request.args.get("query", "")
     method = request.args.get("method", "boolean")
 
-    MAX_RESULTS = 20 # Limit the number of results to display
+    error = None
 
     if method == "boolean":
-        hits = boolean_engine.search(query)
+        hits, error = boolean_engine.search(query)
     elif method == "semantic":
         with semantic_engine_lock:
             if semantic_engine is None:
@@ -96,7 +96,8 @@ def results():
                            plot_file=plot_file,
                            pie_plot=pie_plot, results=page_hits,
                            total_hits=total_hits, page=page,
-                           total_pages=total_pages, per_page=per_page)
+                           total_pages=total_pages, per_page=per_page,
+                           error=error)
 
 @app.route("/results/<index>")
 def musical(index: str):
