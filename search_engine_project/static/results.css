@@ -16,7 +16,7 @@
 }
 
 #search-info p b {
-  color: lightblue; /* optional: makes labels stand out */
+  color: CadetBlue;
 }
 
 #search-info h1 {
@@ -36,7 +36,7 @@
   flex-wrap: wrap;   /* allows stacking on narrow screens */
 }
 
-/* Optional styling for individual chart blocks */
+/*  styling for individual chart blocks */
 #release-year-chart,
 #venue-type-chart {
   background: rgba(255, 255, 255, 0.35);
@@ -45,7 +45,7 @@
   max-width: 400px;
 }
 
-/* Ensure chart images don't overflow */
+/* Ensures chart images don't overflow */
 #release-year-chart img,
 #venue-type-chart img {
   width: 100%;
@@ -125,4 +125,42 @@
     width: fit-content;
     border-radius: 6px;
   }
+}
+
+/*styling for pagiantion*/
+.pagination {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: CadetBlue;
+  background: white;
+}
+
+.pagination a:hover {
+  background: lightblue;
+  color: white;
+}
+
+.pagination .current {
+  background:lightblue;
+  color: black;
+  border-color: #0077cc;
+  font-weight: bold;
+}
+
+/* Active page */
+.pagination li a.active {
+  background: lightblue;
+  color: black;
+  border-color: #0077cc;
+  font-weight: bold;
 }

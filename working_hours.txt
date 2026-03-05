@@ -37,6 +37,8 @@ Isabel:
                     app.py
 23.2.   1.5h        fixed diagrams and added pagination to results page
 2.3.    1h          beautification of diagrams and improvements to css
+5.3.    1h          fixed css, made pagination more accessible and tried to
+                    crash our search engine >> identified semantic search error
 
 Manuel:
 23.1.	2 hours     extracting content from wikipedia pages

@@ -6,7 +6,7 @@ Courtesy of FAMI Co. (Fiia, Aaro, Manuel, Isabel)
 
 With this app, you can search through a database of musicals. Ever wanted to know every musical that features dogs? Trying to find more musicals about deranged high schoolers to fill a Heathers-shaped hole in your heart? Then this app is for you!
 
-There are three search methods: boolean, TF-IDF, and semantic. Boolean search just checks if the words you search for match our any of the musicals in our database. TF-IDF is a little more sophisticated and also checks if the words you use are themselves common; for example, nearly everything contains the word "musical", so it's not very informative. Semantic search uses the `glove-wiki-gigaword-300` to parse your query and find results that try to more accurately match the meaning of your search.
+There are three search methods: boolean, TF-IDF, and semantic. Boolean search just checks if the words you search for match any of the musicals in our database. TF-IDF is a little more sophisticated and also checks if the words you use are themselves common; for example, nearly everything contains the word "musical", so it's not very informative. Semantic search uses the `glove-wiki-gigaword-300` to parse your query and find results that try to more accurately match the meaning of your search.
 
 ## :nail_care: How to run the app
 
@@ -33,7 +33,7 @@ After you have the dependencies installed, navigate to the project directory wit
 
 ## :people_holding_hands: How the app was made
 
-We worked together and did a lot of pair coding, so the commits don't correctly represent everyone's efforts.
+We worked together and did a lot of pair coding, so the commits don't correctly represent everyone's efforts. More accurate workload distributions can be inferred from working_hours.txt.
 
 The app's database comes from Wikipedia, specifically these two articles: [List of Musicals: A to L](https://en.wikipedia.org/wiki/List_of_musicals:_A_to_L) and [List of Musicals: M to Z](https://en.wikipedia.org/wiki/List_of_musicals:_M_to_Z). We scraped these articles to get a list of musicals, and then the individual pages on the musicals themselves linked on the list articles to get more detailed information about them. If you run the app, the raw databases can be accessed at http://localhost:5000/static/musicals.json and http://localhost:5000/static/musicals-data.json. Tags for the musicals were generated using `pke`.
 

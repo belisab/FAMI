@@ -74,16 +74,24 @@
     <p>Search methods:
 
         <br> <br>
-        Boolean:<br> Exact keyword matching. Use operators "and", "or", "not", as well as as
+        Boolean:<br>
+        Boolean search just checks if the words
+        you search for match any of the musicals in our database.
+        Use operators "and", "or", "not", as well as as
         parentheses "()" or perform wildcard searches with "*".
         <br> <br>
-        TF-IDF: <br> Term frequency–inverse document frequency is a measure
-        of importance of your search word(s). It evaluates word relevance
-        by balancing how often the search word(s) appear in a specific document
-        (TF) against its frequency across a larger document set (IDF).
+        TF-IDF: <br>
+        TF-IDF is a little more sophisticated. Term frequency–inverse document frequency is a measure
+        of importance of your search word(s). In other words, it also checks if
+        the words you use are themselves common; for example, nearly everything
+        contains the word "musical" and function words like "and" so those are
+        not very informative and will be given less emphasis.
+
         <br> <br>
-        Semantic search: <br> Semantic search, or neural search, encodes queries
-        and documents into dense, contextualized vectors. It
+        Semantic search: <br>
+        Semantic search uses the glove-wiki-gigaword-300 to parse your query
+        and find results that try to more accurately match the meaning of your search.
+        It encodes your query and the database into dense, contextualized vectors. It
         captures semantic relationships and similarities between words based on
         their context.
     </p>
