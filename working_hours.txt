@@ -23,6 +23,7 @@ Aaro:
                     boolean search (019d9a3)
 4.3.    1 hour      fix a crash with boolean search (1be3db1) and update README 
                     (813b8cb)
+5.3.    10 minutes  fix semantic search crashing (#35)
 
 Isabel:
 19.1.   2 hours     query loop for Boolean search, pair coding with Fiia

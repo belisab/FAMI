@@ -19,6 +19,8 @@ class SemanticSearchEngine(Generic[T]):
     def into_wordvec(self, text: str) -> typing.Any:
         text_without_stopwords = gensim.parsing.preprocessing.remove_stopwords(text) # type: ignore
         tokens = gensim.utils.simple_preprocess(text_without_stopwords) # type: ignore
+        if len(tokens) == 0:
+            return None
         return self.ft.get_mean_vector(tokens)
     
     @staticmethod
@@ -33,8 +35,13 @@ class SemanticSearchEngine(Generic[T]):
             dv = self.into_wordvec(doc.get_searchable_data())
             self.doc_vectors.add_vector(i, dv) # type: ignore
 
-    def search(self, query: str, topn: int = 5) -> list[T]:
+    def search(self, query: str, topn: int = 5) -> tuple[list[T], str | None]:
         q = self.into_wordvec(query)
+        if q is None:
+            return list[T](), "Query consisted entirely of \"stop words\" \
+                (conjuctions, prepositions, etc.). Include some non-stop words \
+                in your query."
+
         most_sim = self.doc_vectors.most_similar([q], topn=topn) # type: ignore
 
         return [
