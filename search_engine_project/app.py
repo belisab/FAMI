@@ -62,13 +62,11 @@ def results():
         with semantic_engine_lock:
             if semantic_engine is None:
                 return "Semantic search engine has not yet been loaded", 500
-            hits = semantic_engine.search(query)
+            hits, error = semantic_engine.search(query)
     elif method == "tf-idf":
         hits = tf_idf_engine.search(query)
     else:
         hits = []
-
-
 
     # for visualisations
     # extract years
